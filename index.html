@@ -8,7 +8,7 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #f3f4f6;
+  background: #f2f4f7;
   margin: 0;
   padding: 20px;
 }
@@ -18,20 +18,20 @@ body {
   margin: auto;
   background: white;
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.12);
 }
 
 h1 {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .warning {
   background: #fff3cd;
   padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 10px;
   margin: 15px 0;
+  font-size: 14px;
 }
 
 label {
@@ -40,45 +40,69 @@ label {
   font-weight: bold;
 }
 
-input, select, button {
+input, button {
   width: 100%;
-  padding: 12px;
-  margin-top: 7px;
+  padding: 13px;
+  margin-top: 8px;
   box-sizing: border-box;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 9px;
   font-size: 16px;
 }
 
+input {
+  border: 1px solid #ccc;
+}
+
 button {
+  border: none;
   cursor: pointer;
   font-weight: bold;
+  background: #222;
+  color: white;
 }
 
-.execute {
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.card {
   margin-top: 18px;
-}
-
-.result {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 12px;
   background: #f1f5f9;
 }
 
-.stats {
-  margin-top: 20px;
-  padding: 15px;
-  background: #eef2ff;
-  border-radius: 10px;
+.big {
+  font-size: 28px;
+  font-weight: bold;
 }
 
-.history {
+.timer {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.win {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.loss {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.stats, .history {
   margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #eef2ff;
 }
 
 .history-item {
-  padding: 10px;
+  padding: 10px 0;
   border-bottom: 1px solid #ddd;
 }
 </style>
@@ -92,51 +116,66 @@ button {
 <p><b>Educational Demo</b></p>
 
 <div class="warning">
-  Educational simulation only. Results are not guaranteed predictions
-  and this app does not place bets or provide betting signals.
+Educational simulation only. The BIG/SMALL result is randomly simulated
+and is not a prediction or guarantee of any real game outcome.
 </div>
 
 <label>Period Number</label>
-<input id="period" type="number" placeholder="Example: 502">
 
-<label>Educational Prediction</label>
-<select id="prediction">
-  <option value="">Select</option>
-  <option value="BIG">BIG</option>
-  <option value="SMALL">SMALL</option>
-</select>
+<input
+  id="period"
+  type="number"
+  placeholder="Enter period number"
+>
 
-<button class="execute" onclick="executePrediction()">
-  EXECUTE
+<button id="executeButton" onclick="executeDemo()">
+EXECUTE
 </button>
 
-<div id="predictionBox" class="result" style="display:none;"></div>
+<div id="predictionCard" class="card" style="display:none;">
 
-<div id="actualBox" style="display:none;">
+  <div>
+    <b>Demo Period</b>
+    <div id="periodDisplay"></div>
+  </div>
 
-  <label>Actual Result</label>
+  <br>
 
-  <select id="actualResult">
-    <option value="">Select actual result</option>
-    <option value="BIG">BIG</option>
-    <option value="SMALL">SMALL</option>
-  </select>
+  <div>
+    <b>Educational Result</b>
+    <div id="predictionDisplay" class="big"></div>
+  </div>
 
-  <button onclick="checkResult()">CHECK RESULT</button>
+  <br>
+
+  <div>
+    <b>Time Remaining</b>
+    <div id="timer" class="timer">01:00</div>
+  </div>
+
+  <div id="finalResult"></div>
 
 </div>
 
-<div id="stats" class="stats">
-  <b>Statistics</b>
-  <p>Total: <span id="total">0</span></p>
-  <p>Wins: <span id="wins">0</span></p>
-  <p>Losses: <span id="losses">0</span></p>
-  <p>Accuracy: <span id="accuracy">0%</span></p>
+<div class="stats">
+
+<h3>Statistics</h3>
+
+<p>Total: <span id="total">0</span></p>
+<p>Wins: <span id="wins">0</span></p>
+<p>Losses: <span id="losses">0</span></p>
+<p>Accuracy: <span id="accuracy">0%</span></p>
+
 </div>
 
 <div class="history">
-  <h3>Demo History</h3>
-  <div id="historyList"></div>
+
+<h3>Demo History</h3>
+
+<div id="historyList">
+No results yet.
+</div>
+
 </div>
 
 </div>
@@ -147,83 +186,199 @@ let total = 0;
 let wins = 0;
 let losses = 0;
 
-let currentPeriod = "";
-let currentPrediction = "";
+let timerInterval = null;
 
-function executePrediction() {
+function executeDemo() {
 
-  const period = document.getElementById("period").value;
-  const prediction = document.getElementById("prediction").value;
+  const periodInput = document.getElementById("period");
 
-  if (!period || !prediction) {
-    alert("Enter the period number and select BIG or SMALL.");
+  const period = periodInput.value.trim();
+
+  if (!period) {
+    alert("Please enter a period number.");
     return;
   }
 
-  currentPeriod = period;
-  currentPrediction = prediction;
+  /*
+    Educational simulation:
+    The app randomly chooses BIG or SMALL.
+    It does NOT read or predict a real game's result.
+  */
 
-  document.getElementById("predictionBox").style.display = "block";
+  const prediction =
+    Math.random() < 0.5 ? "BIG" : "SMALL";
 
-  document.getElementById("predictionBox").innerHTML =
-    "<b>Demo Period:</b> " + period +
-    "<br><b>Educational Result:</b> " + prediction +
-    "<br><small>This is a simulation, not a guaranteed prediction.</small>";
+  document.getElementById("periodDisplay").textContent =
+    period;
 
-  document.getElementById("actualBox").style.display = "block";
+  document.getElementById("predictionDisplay").textContent =
+    prediction;
+
+  document.getElementById("predictionCard").style.display =
+    "block";
+
+  document.getElementById("finalResult").innerHTML = "";
+
+  const button =
+    document.getElementById("executeButton");
+
+  button.disabled = true;
+
+  /*
+    One-minute educational timer.
+  */
+
+  let remaining = 60;
+
+  updateTimer(remaining);
+
+  timerInterval = setInterval(function() {
+
+    remaining--;
+
+    updateTimer(remaining);
+
+    if (remaining <= 0) {
+
+      clearInterval(timerInterval);
+
+      finishDemo(
+        period,
+        prediction
+      );
+
+      button.disabled = false;
+    }
+
+  }, 1000);
 }
 
-function checkResult() {
 
-  const actual = document.getElementById("actualResult").value;
+function updateTimer(seconds) {
 
-  if (!actual) {
-    alert("Select the actual result first.");
-    return;
-  }
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const secs =
+    seconds % 60;
+
+  const display =
+    String(minutes).padStart(2, "0")
+    + ":" +
+    String(secs).padStart(2, "0");
+
+  document.getElementById("timer")
+    .textContent = display;
+}
+
+
+function finishDemo(period, prediction) {
+
+  /*
+    Educational simulated actual result.
+    It is intentionally random, so both WIN and LOSS
+    can occur.
+  */
+
+  const actual =
+    Math.random() < 0.5 ? "BIG" : "SMALL";
 
   total++;
 
   let result;
 
-  if (actual === currentPrediction) {
+  if (prediction === actual) {
+
     wins++;
+
     result = "WIN";
+
   } else {
+
     losses++;
+
     result = "LOSS";
   }
 
-  const historyList = document.getElementById("historyList");
+  const resultBox =
+    document.getElementById("finalResult");
 
-  const item = document.createElement("div");
-  item.className = "history-item";
+  if (result === "WIN") {
+
+    resultBox.innerHTML =
+      "<br><div class='win'>✅ WIN</div>" +
+      "<p>Simulated actual result: " +
+      actual +
+      "</p>";
+
+  } else {
+
+    resultBox.innerHTML =
+      "<br><div class='loss'>❌ LOSS</div>" +
+      "<p>Simulated actual result: " +
+      actual +
+      "</p>";
+  }
+
+  addHistory(
+    period,
+    prediction,
+    actual,
+    result
+  );
+
+  updateStats();
+}
+
+
+function addHistory(
+  period,
+  prediction,
+  actual,
+  result
+) {
+
+  const history =
+    document.getElementById("historyList");
+
+  if (history.textContent === "No results yet.") {
+    history.innerHTML = "";
+  }
+
+  const item =
+    document.createElement("div");
+
+  item.className =
+    "history-item";
 
   item.innerHTML =
-    "<b>Period " + currentPeriod + "</b><br>" +
-    "Prediction: " + currentPrediction + "<br>" +
+    "<b>Period " + period + "</b><br>" +
+    "Prediction: " + prediction + "<br>" +
     "Actual: " + actual + "<br>" +
     "Result: <b>" + result + "</b>";
 
-  historyList.prepend(item);
-
-  updateStats();
-
-  document.getElementById("actualResult").value = "";
+  history.prepend(item);
 }
+
 
 function updateStats() {
 
-  document.getElementById("total").textContent = total;
-  document.getElementById("wins").textContent = wins;
-  document.getElementById("losses").textContent = losses;
+  document.getElementById("total")
+    .textContent = total;
 
-  let accuracy = total === 0
-    ? 0
-    : ((wins / total) * 100).toFixed(1);
+  document.getElementById("wins")
+    .textContent = wins;
 
-  document.getElementById("accuracy").textContent =
-    accuracy + "%";
+  document.getElementById("losses")
+    .textContent = losses;
+
+  const accuracy =
+    total === 0
+      ? 0
+      : ((wins / total) * 100).toFixed(1);
+
+  document.getElementById("accuracy")
+    .textContent = accuracy + "%";
 }
 
 </script>
