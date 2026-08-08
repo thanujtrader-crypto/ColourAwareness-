@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colour Awareness</title>
+</head>
+<body>
+  <h1>Colour Awareness</h1>
+
+  <h2>Educational Demo</h2>
+
+  <p>Period Number:</p>
+  <h2 id="period"></h2>
+
+  <p>Day: <span id="day">1</span> / 3</p>
+
+  <button onclick="nextRound()">Start Demo Round</button>
+
+  <p id="message"></p>
+
+  <script>
+    let period = 501;
+
+    function nextRound() {
+      period++;
+      document.getElementById("period").textContent = period;
+
+      document.getElementById("message").textContent =
+        "Educational simulation only — no guaranteed prediction.";
+    }
+  </script>
+</body>
+</html>
