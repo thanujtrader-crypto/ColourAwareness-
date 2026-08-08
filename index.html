@@ -1,33 +1,233 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Colour Awareness</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colour Awareness - Educational Demo</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
+
+h1 {
+  margin-bottom: 5px;
+}
+
+.warning {
+  background: #fff3cd;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.execute {
+  margin-top: 18px;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f1f5f9;
+}
+
+.stats {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef2ff;
+  border-radius: 10px;
+}
+
+.history {
+  margin-top: 20px;
+}
+
+.history-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+</style>
 </head>
+
 <body>
-  <h1>Colour Awareness</h1>
 
-  <h2>Educational Demo</h2>
+<div class="container">
 
-  <p>Period Number:</p>
-  <h2 id="period"></h2>
+<h1>Colour Awareness</h1>
+<p><b>Educational Demo</b></p>
 
-  <p>Day: <span id="day">1</span> / 3</p>
+<div class="warning">
+  Educational simulation only. Results are not guaranteed predictions
+  and this app does not place bets or provide betting signals.
+</div>
 
-  <button onclick="nextRound()">Start Demo Round</button>
+<label>Period Number</label>
+<input id="period" type="number" placeholder="Example: 502">
 
-  <p id="message"></p>
+<label>Educational Prediction</label>
+<select id="prediction">
+  <option value="">Select</option>
+  <option value="BIG">BIG</option>
+  <option value="SMALL">SMALL</option>
+</select>
 
-  <script>
-    let period = 501;
+<button class="execute" onclick="executePrediction()">
+  EXECUTE
+</button>
 
-    function nextRound() {
-      period++;
-      document.getElementById("period").textContent = period;
+<div id="predictionBox" class="result" style="display:none;"></div>
 
-      document.getElementById("message").textContent =
-        "Educational simulation only — no guaranteed prediction.";
-    }
-  </script>
+<div id="actualBox" style="display:none;">
+
+  <label>Actual Result</label>
+
+  <select id="actualResult">
+    <option value="">Select actual result</option>
+    <option value="BIG">BIG</option>
+    <option value="SMALL">SMALL</option>
+  </select>
+
+  <button onclick="checkResult()">CHECK RESULT</button>
+
+</div>
+
+<div id="stats" class="stats">
+  <b>Statistics</b>
+  <p>Total: <span id="total">0</span></p>
+  <p>Wins: <span id="wins">0</span></p>
+  <p>Losses: <span id="losses">0</span></p>
+  <p>Accuracy: <span id="accuracy">0%</span></p>
+</div>
+
+<div class="history">
+  <h3>Demo History</h3>
+  <div id="historyList"></div>
+</div>
+
+</div>
+
+<script>
+
+let total = 0;
+let wins = 0;
+let losses = 0;
+
+let currentPeriod = "";
+let currentPrediction = "";
+
+function executePrediction() {
+
+  const period = document.getElementById("period").value;
+  const prediction = document.getElementById("prediction").value;
+
+  if (!period || !prediction) {
+    alert("Enter the period number and select BIG or SMALL.");
+    return;
+  }
+
+  currentPeriod = period;
+  currentPrediction = prediction;
+
+  document.getElementById("predictionBox").style.display = "block";
+
+  document.getElementById("predictionBox").innerHTML =
+    "<b>Demo Period:</b> " + period +
+    "<br><b>Educational Result:</b> " + prediction +
+    "<br><small>This is a simulation, not a guaranteed prediction.</small>";
+
+  document.getElementById("actualBox").style.display = "block";
+}
+
+function checkResult() {
+
+  const actual = document.getElementById("actualResult").value;
+
+  if (!actual) {
+    alert("Select the actual result first.");
+    return;
+  }
+
+  total++;
+
+  let result;
+
+  if (actual === currentPrediction) {
+    wins++;
+    result = "WIN";
+  } else {
+    losses++;
+    result = "LOSS";
+  }
+
+  const historyList = document.getElementById("historyList");
+
+  const item = document.createElement("div");
+  item.className = "history-item";
+
+  item.innerHTML =
+    "<b>Period " + currentPeriod + "</b><br>" +
+    "Prediction: " + currentPrediction + "<br>" +
+    "Actual: " + actual + "<br>" +
+    "Result: <b>" + result + "</b>";
+
+  historyList.prepend(item);
+
+  updateStats();
+
+  document.getElementById("actualResult").value = "";
+}
+
+function updateStats() {
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("wins").textContent = wins;
+  document.getElementById("losses").textContent = losses;
+
+  let accuracy = total === 0
+    ? 0
+    : ((wins / total) * 100).toFixed(1);
+
+  document.getElementById("accuracy").textContent =
+    accuracy + "%";
+}
+
+</script>
+
 </body>
 </html>
