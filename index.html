@@ -1,1568 +1,747 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Colour Awareness</title><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><style>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>THANUJ Analyzing</title>
 
-* {
-  box-sizing: border-box;
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#080d1c;
+  color:#fff;
+  min-height:100vh;
+}
+button,input{font:inherit}
+
+.splash{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:linear-gradient(135deg,#080d1c,#172554,#312e81);
+  transition:.5s;
+}
+.logo{
+  width:90px;height:90px;border-radius:25px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;font-weight:bold;
+  background:linear-gradient(135deg,#38bdf8,#8b5cf6);
+  box-shadow:0 0 40px #38bdf855;
+}
+.splash h1{margin-top:20px;font-size:28px}
+.splash p{margin-top:8px;color:#aab4d0}
+.loader{
+  width:180px;height:5px;background:#ffffff20;
+  border-radius:10px;margin-top:25px;overflow:hidden
+}
+.loader span{
+  display:block;width:50%;height:100%;
+  background:#38bdf8;
+  animation:load 1.5s infinite;
+}
+@keyframes load{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(300%)}
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  padding: 18px;
-  font-family: Arial, sans-serif;
-  color: white;
+.hidden{display:none!important}
 
-  background:
-    radial-gradient(circle at 15% 15%,
-      rgba(255,120,190,.30),
-      transparent 30%),
-    radial-gradient(circle at 85% 25%,
-      rgba(100,160,255,.30),
-      transparent 30%),
-    radial-gradient(circle at 50% 100%,
-      rgba(170,70,255,.25),
-      transparent 35%),
-    linear-gradient(
-      135deg,
-      #09051c,
-      #17104a,
-      #0b1738,
-      #190820
-    );
+.login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:radial-gradient(circle at top,#172554,#080d1c 60%);
+}
+.card{
+  width:100%;
+  max-width:430px;
+  background:#111827dd;
+  border:1px solid #ffffff15;
+  border-radius:25px;
+  padding:30px;
+  box-shadow:0 20px 60px #0008;
+}
+.card h2{text-align:center;font-size:27px}
+.card .sub{text-align:center;color:#9ca3af;margin:8px 0 25px}
+.input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border:1px solid #ffffff15;
+  border-radius:12px;
+  background:#0b1020;
+  color:#fff;
+  outline:none;
+}
+.primary{
+  width:100%;
+  border:0;
+  padding:14px;
+  margin-top:12px;
+  border-radius:13px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#2563eb,#7c3aed);
+}
+.demo{text-align:center;color:#64748b;font-size:12px;margin-top:15px}
 
-  background-attachment: fixed;
+.app{min-height:100vh;padding-bottom:80px}
+.top{
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#0b1020;
+  border-bottom:1px solid #ffffff10;
+}
+.brand{font-size:20px;font-weight:bold}
+.brand span{color:#38bdf8}
+.avatar{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:#312e81;font-weight:bold;
+}
+.page{padding:20px;max-width:850px;margin:auto}
+.page h1{font-size:28px;margin-bottom:6px}
+.muted{color:#94a3b8}
+
+.upload{
+  margin-top:22px;
+  padding:30px 20px;
+  border:2px dashed #334155;
+  border-radius:22px;
+  text-align:center;
+  background:#111827;
+}
+.upload-icon{font-size:45px}
+.upload h3{margin:12px 0 6px}
+.upload p{color:#94a3b8;font-size:14px}
+.filebtn{
+  display:inline-block;
+  margin-top:18px;
+  padding:13px 22px;
+  border-radius:12px;
+  background:#2563eb;
+  cursor:pointer;
+  font-weight:bold;
+}
+#fileInput{display:none}
+
+.preview{
+  margin-top:20px;
+  background:#111827;
+  border-radius:20px;
+  padding:15px;
+}
+.preview img{
+  width:100%;
+  max-height:420px;
+  object-fit:contain;
+  border-radius:14px;
+  background:#020617;
 }
 
-.container {
-  width: 100%;
-  max-width: 650px;
-  margin: auto;
+.action{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.action button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:11px;
+  cursor:pointer;
+  color:#fff;
+  background:#1e293b;
+}
+.action .analyze{background:#7c3aed}
+
+.result{
+  margin-top:20px;
+  background:#111827;
+  border:1px solid #ffffff10;
+  border-radius:20px;
+  padding:20px;
+}
+.result h3{margin-bottom:12px}
+.progress{
+  height:8px;background:#1e293b;
+  border-radius:20px;overflow:hidden;
+  margin:12px 0;
+}
+.progress span{
+  display:block;width:0;height:100%;
+  background:#38bdf8;
+  transition:.3s;
+}
+.ocr{
+  width:100%;
+  min-height:150px;
+  margin-top:12px;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #ffffff10;
+  background:#020617;
+  color:#e2e8f0;
+  resize:vertical;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 18px;
+.history-item{
+  margin-top:12px;
+  padding:15px;
+  background:#111827;
+  border:1px solid #ffffff10;
+  border-radius:15px;
+}
+.history-item small{color:#64748b}
+.history-item p{
+  margin-top:8px;
+  color:#cbd5e1;
+  white-space:pre-wrap;
+}
+.empty{
+  text-align:center;
+  padding:50px 20px;
+  color:#64748b;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 30px;
-
-  text-shadow:
-    0 0 10px #ff7ac8,
-    0 0 25px #7aa7ff;
+.profile-box,.setting{
+  margin-top:15px;
+  background:#111827;
+  border:1px solid #ffffff10;
+  border-radius:18px;
+  padding:20px;
+}
+.profile-big{
+  width:80px;height:80px;border-radius:50%;
+  background:#312e81;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:bold;
+  margin:auto auto 15px;
+}
+.profile-box{text-align:center}
+.setting{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.setting button{
+  border:0;padding:9px 15px;border-radius:10px;
+  background:#2563eb;color:#fff;cursor:pointer;
 }
 
-.subtitle {
-  margin-top: 7px;
-  opacity: .8;
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:70px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#0b1020ee;
+  backdrop-filter:blur(15px);
+  border-top:1px solid #ffffff12;
+  z-index:20;
 }
-
-.anime-banner {
-  height: 170px;
-  border-radius: 22px;
-  margin-bottom: 18px;
-
-  background:
-    radial-gradient(circle at 20% 20%,
-      white 0 2px,
-      transparent 3px),
-    radial-gradient(circle at 80% 30%,
-      white 0 2px,
-      transparent 3px),
-    linear-gradient(
-      135deg,
-      #251052,
-      #68246f,
-      #172c69
-    );
-
-  position: relative;
-  overflow: hidden;
+.nav button{
+  border:0;background:none;color:#64748b;
+  cursor:pointer;text-align:center;
+  font-size:12px;
 }
+.nav button b{display:block;font-size:22px;margin-bottom:3px}
+.nav button.active{color:#38bdf8}
 
-.anime-banner::before {
-  content: "";
-  position: absolute;
-
-  width: 105px;
-  height: 105px;
-
-  border-radius: 50%;
-
-  background: #ffd7c8;
-
-  left: 50%;
-  top: 35px;
-
-  transform: translateX(-50%);
+.light{
+  background:#f1f5f9;
+  color:#0f172a;
 }
-
-.anime-banner::after {
-  content: "";
-
-  position: absolute;
-
-  width: 180px;
-  height: 110px;
-
-  left: 50%;
-  top: 15px;
-
-  transform: translateX(-50%);
-
-  border-radius:
-    55% 55% 20% 20%;
-
-  background: #18142d;
+.light .top,.light .nav{background:#ffffffee;color:#0f172a}
+.light .upload,.light .preview,.light .result,
+.light .history-item,.light .profile-box,.light .setting{
+  background:#fff;border-color:#cbd5e1;
 }
+.light .input{background:#fff;color:#0f172a;border-color:#cbd5e1}
+.light .ocr{background:#f8fafc;color:#0f172a}
+.light .muted{color:#64748b}
 
-.card {
-  background:
-    rgba(255,255,255,.09);
-
-  border:
-    1px solid rgba(255,255,255,.16);
-
-  border-radius: 20px;
-
-  padding: 17px;
-
-  margin-bottom: 16px;
-
-  backdrop-filter: blur(14px);
-
-  box-shadow:
-    0 10px 35px rgba(0,0,0,.28);
+.toast{
+  position:fixed;
+  bottom:85px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#1e293b;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:12px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:50;
 }
+.toast.show{opacity:1}
 
-.warning {
-  background:
-    rgba(255,193,7,.10);
-
-  border:
-    1px solid rgba(255,193,7,.30);
-
-  border-radius: 12px;
-
-  padding: 13px;
-
-  font-size: 13px;
-
-  line-height: 1.5;
-
-  margin-bottom: 18px;
+@media(max-width:500px){
+  .page{padding:15px}
+  .card{padding:24px}
 }
-
-
-/* TWO PANELS */
-
-.upload-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap: 12px;
-}
-
-.upload-box {
-
-  padding: 13px;
-
-  text-align: center;
-
-  border-radius: 16px;
-
-  background:
-    rgba(255,255,255,.07);
-
-  border:
-    1px solid rgba(255,255,255,.13);
-}
-
-.upload-box h3 {
-
-  margin-top: 0;
-
-  font-size: 16px;
-}
-
-input[type="file"] {
-
-  width: 100%;
-
-  padding: 8px;
-
-  border-radius: 10px;
-
-  background: white;
-
-  color: #111;
-
-  font-size: 11px;
-}
-
-.preview {
-
-  width: 100%;
-
-  height: 145px;
-
-  object-fit: contain;
-
-  margin-top: 10px;
-
-  border-radius: 12px;
-
-  display: none;
-
-  background:
-    rgba(0,0,0,.25);
-}
-
-.pattern-list {
-
-  margin-top: 12px;
-
-  max-height: 190px;
-
-  overflow-y: auto;
-}
-
-.pattern-item {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 8px;
-
-  padding: 8px;
-
-  margin-bottom: 7px;
-
-  border-radius: 10px;
-
-  background:
-    rgba(0,0,0,.20);
-
-  font-size: 12px;
-}
-
-.pattern-thumb {
-
-  width: 50px;
-  height: 40px;
-
-  object-fit: cover;
-
-  border-radius: 7px;
-}
-
-.remove-btn {
-
-  width: auto;
-
-  margin: 0;
-
-  padding: 7px 9px;
-
-  background: #ef476f;
-
-  color: white;
-
-  font-size: 11px;
-}
-
-.analysis-button {
-
-  background:
-    linear-gradient(
-      90deg,
-      #49d8ff,
-      #7a7aff
-    );
-
-  color: white;
-
-  font-weight: bold;
-
-  box-shadow:
-    0 0 18px rgba(70,190,255,.30);
-}
-
-.replace-button {
-
-  background:
-    rgba(255,255,255,.14);
-
-  color: white;
-}
-
-.ocr-status {
-
-  text-align: center;
-
-  font-size: 13px;
-
-  margin: 12px 0;
-
-  opacity: .8;
-}
-
-.detected {
-
-  margin-top: 15px;
-
-  padding: 13px;
-
-  border-radius: 13px;
-
-  background:
-    rgba(0,0,0,.18);
-
-  text-align: center;
-}
-
-.sequence {
-
-  margin-top: 7px;
-
-  font-size: 21px;
-
-  font-weight: bold;
-
-  letter-spacing: 4px;
-
-  word-break: break-word;
-}
-
-.match-score {
-
-  font-size: 42px;
-
-  font-weight: bold;
-
-  text-align: center;
-
-  margin: 10px 0;
-}
-
-.clock {
-
-  text-align: center;
-
-  font-size: 38px;
-
-  font-weight: bold;
-
-  letter-spacing: 2px;
-
-  margin: 10px 0;
-}
-
-.clock-second {
-
-  text-align: center;
-
-  font-size: 14px;
-
-  opacity: .75;
-}
-
-label {
-
-  display: block;
-
-  margin-top: 12px;
-
-  margin-bottom: 7px;
-
-  font-weight: bold;
-}
-
-input[type="number"] {
-
-  width: 100%;
-
-  padding: 13px;
-
-  border: none;
-
-  border-radius: 11px;
-
-  font-size: 16px;
-}
-
-button {
-
-  width: 100%;
-
-  padding: 13px;
-
-  border: none;
-
-  border-radius: 11px;
-
-  margin-top: 12px;
-
-  font-size: 15px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-button:disabled {
-
-  opacity: .45;
-
-}
-
-.execute {
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff62b0,
-      #8d7aff
-    );
-
-  color: white;
-}
-
-.analysis-row {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 15px;
-
-  padding: 9px 0;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.10);
-}
-
-.prediction {
-
-  text-align: center;
-
-  font-size: 32px;
-
-  font-weight: bold;
-
-  margin: 15px 0;
-}
-
-.result-buttons {
-
-  display: flex;
-
-  gap: 10px;
-}
-
-.result-buttons button {
-
-  flex: 1;
-}
-
-.big-btn {
-
-  background: #ef476f;
-
-  color: white;
-}
-
-.small-btn {
-
-  background: #4285f4;
-
-  color: white;
-}
-
-.result {
-
-  text-align: center;
-
-  margin-top: 18px;
-
-  font-size: 28px;
-
-  font-weight: bold;
-}
-
-.win {
-
-  color: #62ff9b;
-}
-
-.loss {
-
-  color: #ff7180;
-}
-
-.stats {
-
-  display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap: 10px;
-}
-
-.stat {
-
-  background:
-    rgba(255,255,255,.07);
-
-  padding: 14px;
-
-  border-radius: 12px;
-
-  text-align: center;
-}
-
-.stat strong {
-
-  display: block;
-
-  font-size: 24px;
-
-  margin-top: 5px;
-}
-
-.history-item {
-
-  padding: 12px 0;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.10);
-
-  line-height: 1.6;
-}
-
-.small-text {
-
-  font-size: 12px;
-
-  opacity: .65;
-}
-
-@media(max-width:500px) {
-
-  .upload-grid {
-
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .upload-box {
-
-    padding: 9px;
-  }
-
-  .upload-box h3 {
-
-    font-size: 13px;
-  }
-}
-
-</style></head><body><div class="container"><div class="header"><h1>
-🌸 Colour Awareness
-</h1><div class="subtitle">
-Educational Pattern Analysis
-</div></div><div class="anime-banner"></div><div class="warning">⚠️ <b>EDUCATIONAL SIMULATION ONLY</b>
-
-<br><br>
-
-This application compares visible historical
-patterns from uploaded images. A high match
-percentage means only that the visible sequences
-are similar. It does not guarantee or predict
-a real-money game's next result.
-
-</div><!-- IMAGE SECTION --><div class="card"><h3>
-📷 Pattern & Game Chart
-</h3><div class="upload-grid"><!-- PATTERN SIDE --><div class="upload-box"><h3>
-⬅️ Pattern Images
-</h3><input
-id="patternInput"
-type="file"
-accept="image/*"
-multiple
-onchange="addPatternImages(event)"
-
-«»
-
-<div
-  id="patternList"
-  class="pattern-list"
-><div class="small-text">
-No pattern images added.
-</div></div></div><!-- GAME CHART SIDE --><div class="upload-box"><h3>
-➡️ Game Chart
-</h3><input
-id="chartInput"
-type="file"
-accept="image/*"
-onchange="setChartImage(event)"
-
-«»
-
-<img
-id="chartPreview"
-class="preview"
-
-«»
-
-<button
-id="removeChart"
-class="replace-button"
-style="display:none"
-onclick="removeChartImage()"
-
-«»
-
-🗑️ Remove Chart
-</button>
-
-</div></div><div
-  id="ocrStatus"
-  class="ocr-status"
->
-Waiting for images...
-</div><button
-class="analysis-button"
-onclick="analyseImages()"
-
-«»
-
-🔍 ANALYSE IMAGES
-</button>
-
-<div
-  id="detectedCard"
-  class="detected"
-  style="display:none"
-><div>
-Detected Game Chart
-</div><div
-  id="detectedChart"
-  class="sequence"
->
--
-</div><hr><div>
-Best Pattern Match
-</div><div
-  id="bestPattern"
-  class="sequence"
->
--
-</div><div>
-Pattern Match Percentage
-</div><div
-  id="matchScore"
-  class="match-score"
->
-0%
-</div><p id="matchMessage">
--
-</p></div></div><!-- CLOCK --><div class="card"><h3>
-⏱️ Analysis Clock
-</h3><div
-  id="clock"
-  class="clock"
->
-00:00:00
-</div><div
-  id="clockSecond"
-  class="clock-second"
->
-Current second: 0
-</div><label>
-Analysis Trigger Second
-</label><input
-id="triggerSecond"
-type="number"
-min="0"
-max="59"
-value="20"
-
-«»
-
-<div class="small-text">Example: If you enter 20, the educational
-analysis trigger occurs when the clock reaches
-20 seconds.
-
-</div></div><!-- PERIOD --><div class="card"><h3>
-🎯 New Analysis
-</h3><label>
-Period Number
-</label><input
-id="period"
-type="number"
-placeholder="Enter period number"
-
-«»
-
-<button
-id="executeButton"
-class="execute"
-onclick="executeAnalysis()"
-
-«»
-
-EXECUTE
-</button>
-
-</div><!-- ANALYSIS --><div
-  id="analysisCard"
-  class="card"
-  style="display:none"
-><h3>
-🔮 Educational Analysis
-</h3><div class="analysis-row"><span>
-Period
-</span><b id="periodDisplay">
--
-</b></div><div class="analysis-row"><span>
-Pattern Match
-</span><b id="analysisMatch">
-0%
-</b></div><div class="analysis-row"><span>
-Visible Chart Sample
-</span><b id="sample">
-0
-</b></div><div class="analysis-row"><span>
-Analysis Status
-</span><b id="analysisStatus">
--
-</b></div><div class="prediction">EDUCATIONAL
-<br>
-ANALYSIS
-
-</div><p
-  id="analysisExplanation"
-  style="text-align:center"
->
--
-</p><hr><p style="text-align:center">
-Local countdown
-</p><div
-  id="timer"
-  class="clock"
->
-01:00
-</div></div><!-- ACTUAL --><div
-  id="actualCard"
-  class="card"
-  style="display:none"
-><h3 style="text-align:center">
-Enter Observed Result
-</h3><p
-  class="small-text"
-  style="text-align:center"
->
-Record what actually appeared for educational
-history tracking.
-</p><div class="result-buttons"><button
-class="big-btn"
-onclick="submitActual('BIG')"
-
-«»
-
-BIG
-</button>
-
-<button
-class="small-btn"
-onclick="submitActual('SMALL')"
-
-«»
-
-SMALL
-</button>
-
-</div></div><!-- RESULT --><div
-  id="resultCard"
-  class="card"
-  style="display:none"
-><div style="text-align:center">Analysis status:
-<b id="finalPrediction">
-
-</b></div><div style="text-align:center">Actual:
-<b id="finalActual">
-
-</b></div><div
-  id="finalResult"
-  class="result"
->
-</div></div><!-- STATS --><div class="card"><h3>
-📊 Statistics
-</h3><div class="stats"><div class="stat">Observations
-
-<strong id="total">
-0
-</strong></div><div class="stat">Matches
-
-<strong id="wins">
-0
-</strong></div><div class="stat">Non-matches
-
-<strong id="losses">
-0
-</strong></div><div class="stat">Match Rate
-
-<strong id="accuracy">
-0%
-</strong></div></div></div><!-- HISTORY --><div class="card"><h3>
-📜 Analysis History
-</h3><div id="history"><div class="small-text">
-No results recorded yet.
-</div></div></div></div><script>
-
-
-/* =========================
-   DATA
-========================= */
-
-let patternImages = [];
-
-let chartImage = null;
-
-let detectedChartSequence = "";
-
-let bestPatternSequence = "";
-
-let matchPercentage = 0;
-
-let total = 0;
-
-let wins = 0;
-
-let losses = 0;
-
-let timerInterval = null;
-
-let clockInterval = null;
-
-let currentPeriod = "";
-
-let analysisRunning = false;
-
-
-/* =========================
-   CLOCK
-========================= */
-
-function updateClock() {
-
-  const now = new Date();
-
-  const h =
-    String(now.getHours())
-    .padStart(2,"0");
-
-  const m =
-    String(now.getMinutes())
-    .padStart(2,"0");
-
-  const s =
-    String(now.getSeconds())
-    .padStart(2,"0");
-
-
-  document.getElementById(
-    "clock"
-  ).textContent =
-    h + ":" + m + ":" + s;
-
-
-  document.getElementById(
-    "clockSecond"
-  ).textContent =
-    "Current second: " + s;
-
-}
-
-
-updateClock();
-
-clockInterval =
-  setInterval(
-    updateClock,
-    1000
-  );
-
-
-/* =========================
-   PATTERN IMAGES
-========================= */
-
-function addPatternImages(event) {
-
-  const files =
-    Array.from(
-      event.target.files
-    );
-
-
-  files.forEach(function(file) {
-
-    patternImages.push(file);
-
-  });
-
-
-  renderPatternList();
-
-
-  event.target.value = "";
-
-}
-
-
-/* =========================
-   SHOW PATTERNS
-========================= */
-
-function renderPatternList() {
-
-  const list =
-    document.getElementById(
-      "patternList"
-    );
-
-
-  list.innerHTML = "";
-
-
-  if (patternImages.length === 0) {
-
-    list.innerHTML =
-      '<div class="small-text">' +
-      'No pattern images added.' +
-      '</div>';
-
-    return;
-
-  }
-
-
-  patternImages.forEach(
-    function(file,index) {
-
-      const div =
-        document.createElement(
-          "div"
-        );
-
-
-      div.className =
-        "pattern-item";
-
-
-      const img =
-        document.createElement(
-          "img"
-        );
-
-
-      img.className =
-        "pattern-thumb";
-
-
-      img.src =
-        URL.createObjectURL(file);
-
-
-      const name =
-        document.createElement(
-          "span"
-        );
-
-
-      name.textContent =
-        "Pattern " +
-        (index + 1);
-
-
-      const remove =
-        document.createElement(
-          "button"
-        );
-
-
-      remove.className =
-        "remove-btn";
-
-
-      remove.textContent =
-        "Remove";
-
-
-      remove.onclick =
-        function() {
-
-          patternImages.splice(
-            index,
-            1
-          );
-
-          renderPatternList();
-
-        };
-
-
-      div.appendChild(img);
-
-      div.appendChild(name);
-
-      div.appendChild(remove);
-
-      list.appendChild(div);
-
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="splash">
+  <div class="logo">T</div>
+  <h1>THANUJ Analyzing</h1>
+  <p>Educational Image Analysis</p>
+  <div class="loader"><span></span></div>
+</div>
+
+<!-- LOGIN -->
+<section id="login" class="login hidden">
+  <div class="card">
+    <h2>Welcome 👋</h2>
+    <p class="sub">Login to THANUJ Analyzing</p>
+
+    <input id="loginName" class="input" placeholder="Your name">
+    <input id="loginEmail" class="input" type="email" placeholder="Email">
+
+    <button class="primary" onclick="login()">Continue</button>
+
+    <p class="demo">
+      Educational application • Your data stays in this browser
+    </p>
+  </div>
+</section>
+
+<!-- APP -->
+<div id="app" class="app hidden">
+
+<header class="top">
+  <div class="brand">THANUJ <span>Analyzing</span></div>
+  <div id="topAvatar" class="avatar">T</div>
+</header>
+
+<!-- HOME / ANALYSIS -->
+<section id="home" class="page">
+
+  <h1>Image Analysis</h1>
+  <p class="muted">Upload an image and extract readable text.</p>
+
+  <div class="upload">
+    <div class="upload-icon">📷</div>
+    <h3>Upload an Image</h3>
+    <p>JPG, PNG, WEBP and other supported image files</p>
+
+    <label class="filebtn" for="fileInput">
+      Choose Image
+    </label>
+
+    <input id="fileInput" type="file" accept="image/*">
+  </div>
+
+  <div id="previewBox" class="preview hidden">
+    <img id="previewImage">
+
+    <div class="action">
+      <button onclick="clearImage()">Remove</button>
+      <button class="analyze" onclick="runOCR()">🔎 Analyze</button>
+    </div>
+  </div>
+
+  <div id="resultBox" class="result hidden">
+    <h3>OCR Result</h3>
+
+    <div id="ocrStatus" class="muted">
+      Preparing analysis...
+    </div>
+
+    <div class="progress">
+      <span id="progressBar"></span>
+    </div>
+
+    <textarea id="ocrText" class="ocr"
+      placeholder="Extracted text will appear here..."></textarea>
+  </div>
+
+</section>
+
+<!-- HISTORY -->
+<section id="history" class="page hidden">
+  <h1>History</h1>
+  <p class="muted">Your previous image analyses.</p>
+
+  <div id="historyList"></div>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="page hidden">
+  <h1>Profile</h1>
+  <p class="muted">Your application profile.</p>
+
+  <div class="profile-box">
+    <div id="profileAvatar" class="profile-big">T</div>
+    <h2 id="profileName">User</h2>
+    <p id="profileEmail" class="muted">user@email.com</p>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page hidden">
+  <h1>Settings</h1>
+  <p class="muted">Customize the application.</p>
+
+  <div class="setting">
+    <div>
+      <b>🌙 Dark Mode</b>
+      <p class="muted">Switch appearance</p>
+    </div>
+    <button onclick="toggleTheme()">Toggle</button>
+  </div>
+
+  <div class="setting">
+    <div>
+      <b>🗑️ Clear History</b>
+      <p class="muted">Delete saved analyses</p>
+    </div>
+    <button onclick="clearHistory()">Clear</button>
+  </div>
+
+  <div class="setting">
+    <div>
+      <b>🚪 Logout</b>
+      <p class="muted">Return to login</p>
+    </div>
+    <button onclick="logout()">Logout</button>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <button id="navHome" class="active" onclick="showPage('home')">
+    <b>🔎</b>Analyze
+  </button>
+
+  <button id="navHistory" onclick="showPage('history')">
+    <b>🕘</b>History
+  </button>
+
+  <button id="navProfile" onclick="showPage('profile')">
+    <b>👤</b>Profile
+  </button>
+
+  <button id="navSettings" onclick="showPage('settings')">
+    <b>⚙️</b>Settings
+  </button>
+</nav>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let selectedImage = null;
+
+/* START */
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    $("splash").classList.add("hidden");
+
+    if(localStorage.getItem("thanujUser")){
+      $("app").classList.remove("hidden");
+      loadProfile();
+      loadHistory();
+    }else{
+      $("login").classList.remove("hidden");
     }
-  );
+  },1800);
+});
 
+/* LOGIN */
+function login(){
+  const name=$("loginName").value.trim();
+  const email=$("loginEmail").value.trim();
+
+  if(!name){
+    toast("Please enter your name");
+    return;
+  }
+
+  const user={
+    name:name,
+    email:email || "Not provided"
+  };
+
+  localStorage.setItem("thanujUser",JSON.stringify(user));
+
+  $("login").classList.add("hidden");
+  $("app").classList.remove("hidden");
+
+  loadProfile();
+  toast("Welcome, "+name+"!");
 }
 
+/* PROFILE */
+function loadProfile(){
+  const data=JSON.parse(localStorage.getItem("thanujUser")||"{}");
 
-/* =========================
-   GAME CHART
-========================= */
+  const name=data.name||"User";
+  const email=data.email||"Not provided";
 
-function setChartImage(event) {
+  $("profileName").textContent=name;
+  $("profileEmail").textContent=email;
 
-  const file =
-    event.target.files[0];
+  const letter=name.charAt(0).toUpperCase();
 
-
-  if (!file) return;
-
-
-  chartImage = file;
-
-
-  const preview =
-    document.getElementById(
-      "chartPreview"
-    );
-
-
-  preview.src =
-    URL.createObjectURL(file);
-
-
-  preview.style.display =
-    "block";
-
-
-  document.getElementById(
-    "removeChart"
-  ).style.display =
-    "block";
-
-
-  document.getElementById(
-    "ocrStatus"
-  ).textContent =
-    "Game chart image selected.";
-
+  $("profileAvatar").textContent=letter;
+  $("topAvatar").textContent=letter;
 }
 
+/* FILE */
+$("fileInput").addEventListener("change",function(e){
 
-function removeChartImage() {
+  const file=e.target.files[0];
 
-  chartImage = null;
+  if(!file)return;
 
+  if(!file.type.startsWith("image/")){
+    toast("Please select an image file");
+    return;
+  }
 
-  const preview =
-    document.getElementById(
-      "chartPreview"
-    );
+  selectedImage=file;
 
+  const reader=new FileReader();
 
-  preview.src = "";
+  reader.onload=function(event){
+    $("previewImage").src=event.target.result;
+    $("previewBox").classList.remove("hidden");
+    $("resultBox").classList.add("hidden");
+    $("ocrText").value="";
+  };
 
-  preview.style.display =
-    "none";
+  reader.readAsDataURL(file);
+});
 
+/* OCR */
+async function runOCR(){
 
-  document.getElementById(
-    "removeChart"
-  ).style.display =
-    "none";
+  if(!selectedImage){
+    toast("Please choose an image first");
+    return;
+  }
 
+  $("resultBox").classList.remove("hidden");
+  $("ocrStatus").textContent="Starting OCR...";
+  $("progressBar").style.width="5%";
+  $("ocrText").value="";
 
-  document.getElementById(
-    "chartInput"
-  ).value = "";
+  try{
 
-
-  document.getElementById(
-    "ocrStatus"
-  ).textContent =
-    "Game chart removed. Select another image.";
-
-}
-
-
-/* =========================
-   OCR
-========================= */
-
-async function readImage(file) {
-
-  const result =
-    await Tesseract.recognize(
-      file,
+    const result=await Tesseract.recognize(
+      selectedImage,
       "eng",
       {
+        logger:function(info){
 
-        logger:
-        function(info) {
-
-          if (
-            info.status ===
-            "recognizing text"
-          ) {
-
-            const percent =
-              Math.round(
-                (info.progress || 0)
-                * 100
-              );
-
-
-            document.getElementById(
-              "ocrStatus"
-            ).textContent =
-              "Reading image... " +
-              percent +
-              "%";
-
+          if(info.status){
+            $("ocrStatus").textContent=info.status;
           }
 
+          if(typeof info.progress==="number"){
+            $("progressBar").style.width=
+              Math.round(info.progress*100)+"%";
+          }
         }
-
       }
     );
 
+    const text=result.data.text.trim();
 
-  return result.data.text;
+    $("progressBar").style.width="100%";
+    $("ocrStatus").textContent="Analysis completed.";
 
-}
+    $("ocrText").value=text || "No readable text found.";
 
+    saveHistory(text || "No readable text found.");
 
-/* =========================
-   B/S EXTRACTION
-========================= */
+    toast("OCR completed successfully");
 
-function extractBS(text) {
-
-  if (!text) return "";
-
-
-  return text
-    .toUpperCase()
-    .replace(/8/g,"B")
-    .replace(/5/g,"S")
-    .replace(/[^BS]/g,"")
-    .slice(0,100);
-
-}
-
-
-/* =========================
-   SIMILARITY
-========================= */
-
-function calculateSimilarity(
-  pattern,
-  chart
-) {
-
-  if (
-    !pattern ||
-    !chart
-  ) {
-
-    return 0;
-
-  }
-
-
-  let best = 0;
-
-
-  /*
-    Search for the pattern at
-    different positions in the chart.
-  */
-
-  for (
-    let start = 0;
-    start <=
-      chart.length - 1;
-    start++
-  ) {
-
-    let compared = 0;
-
-    let same = 0;
-
-
-    for (
-      let i = 0;
-      i < pattern.length;
-      i++
-    ) {
-
-      if (
-        start + i >=
-        chart.length
-      ) break;
-
-
-      compared++;
-
-
-      if (
-        pattern[i] ===
-        chart[start+i]
-      ) {
-
-        same++;
-
-      }
-
-    }
-
-
-    if (compared > 0) {
-
-      const score =
-        Math.round(
-          (same / compared)
-          * 100
-        );
-
-
-      if (score > best) {
-
-        best = score;
-
-      }
-
-    }
-
-  }
-
-
-  return best;
-
-}
-
-
-/* =========================
-   ANALYSE IMAGES
-========================= */
-
-async function analyseImages() {
-
-  if (
-    patternImages.length === 0
-  ) {
-
-    alert(
-      "Please add at least one pattern image."
-    );
-
-    return;
-
-  }
-
-
-  if (!chartImage) {
-
-    alert(
-      "Please add one game chart image."
-    );
-
-    return;
-
-  }
-
-
-  const status =
-    document.getElementById(
-      "ocrStatus"
-    );
-
-
-  status.textContent =
-    "Starting image analysis...";
-
-
-  try {
-
-    /*
-      Read chart.
-    */
-
-    const chartText =
-      await readImage(
-        chartImage
-      );
-
-
-    detectedChartSequence =
-      extractBS(
-        chartText
-      );
-
-
-    /*
-      Read all pattern images.
-    */
-
-    let bestScore = 0;
-
-    let bestSequence = "";
-
-
-    for (
-      let i = 0;
-      i < patternImages.length;
-      i++
-    ) {
-
-      status.textContent =
-        "Reading pattern " +
-        (i + 1) +
-        " of " +
-        patternImages.length +
-        "...";
-
-
-      const text =
-        await readImage(
-          patternImages[i]
-        );
-
-
-      const sequence =
-        extractBS(text);
-
-
-      const score =
-        calculateSimilarity(
-          sequence,
-          detectedChartSequence
-        );
-
-
-      if (
-        score > bestScore
-      ) {
-
-        bestScore =
-          score;
-
-        bestSequence =
-          sequence;
-
-      }
-
-    }
-
-
-    matchPercentage =
-      bestScore;
-
-    bestPatternSequence =
-      bestSequence;
-
-
-    document.getElementById(
-      "detectedChart"
-    ).textContent =
-      detectedChartSequence ||
-      "No B/S detected";
-
-
-    document.getElementById(
-      "bestPattern"
-    ).textContent =
-      bestPatternSequence ||
-      "No B/S detected";
-
-
-    document.getElementById(
-      "matchScore"
-    ).textContent =
-      matchPercentage + "%";
-
-
-    document.getElementById(
-      "detectedCard"
-    ).style.display =
-      "block";
-
-
-    if (
-      matchPercentage === 100
-    ) {
-
-      document.getElementById(
-        "matchMessage"
-      ).textContent =
-        "Exact visible sequence match found.";
-
-    }
-
-    else if (
-      matchPercentage >= 70
-    ) {
-
-      document.getElementById(
-        "matchMessage"
-      ).textContent =
-        "Strong historical pattern similarity.";
-
-    }
-
-    else if (
-      matchPercentage >= 50
-    ) {
-
-      document.getElementById(
-        "matchMessage"
-      ).textContent =
-        "Moderate historical pattern similarity.";
-
-    }
-
-    else {
-
-      document.getElementById(
-        "matchMessage"
-      ).textContent =
-        "Low historical pattern similarity.";
-
-    }
-
-
-    status.textContent =
-      "Image analysis completed.";
-
-  }
-
-  catch(error) {
+  }catch(error){
 
     console.error(error);
 
+    $("ocrStatus").textContent="OCR failed.";
+    $("ocrText").value=
+      "Unable to analyze this image. Please try another image.";
 
-    status.textContent =
-      "Image reading failed.";
-
-
-    alert(
-      "The images could not be read. Try clearer screenshots."
-    );
-
+    toast("OCR could not be completed");
   }
-
 }
 
+/* HISTORY */
+function saveHistory(text){
 
-/* =========================
-   EXECUTE
-========================= */
+  let history=JSON.parse(
+    localStorage.getItem("thanujHistory")||"[]"
+  );
 
-function executeAnalysis() {
+  history.unshift({
+    text:text,
+    date:new Date().toLocaleString()
+  });
 
-  if (analysisRunning) {
+  history=history.slice(0,20);
 
+  localStorage.setItem(
+    "thanujHistory",
+    JSON.stringify(history)
+  );
+
+  loadHistory();
+}
+
+function loadHistory(){
+
+  const list=$("historyList");
+
+  const history=JSON.parse(
+    localStorage.getItem("thanujHistory")||"[]"
+  );
+
+  list.innerHTML="";
+
+  if(history.length===0){
+    list.innerHTML=
+      '<div class="empty">🕘<br><br>No analysis history yet.</div>';
     return;
-
   }
 
+  history.forEach(item=>{
 
-  const period =
-    document.getElementById(
-      "period"
-    ).value.trim();
+    const div=document.createElement("div");
+    div.className="history-item";
 
+    const title=document.createElement("b");
+    title.textContent="Image Analysis";
 
-  if (!period) {
+    const date=document.createElement("small");
+    date.textContent=item.date;
 
-    alert(
-      "Please enter the period number."
-    );
+    const text=document.createElement("p");
+    text.textContent=item.text;
 
-    return;
+    div.appendChild(title);
+    div.appendChild(document.createElement("br"));
+    div.appendChild(date);
+    div.appendChild(text);
 
-  }
+    list.appendChild(div);
+  });
+}
 
+/* CLEAR IMAGE */
+function clearImage(){
 
-  currentPeriod =
-    period;
+  selectedImage=null;
+  $("fileInput").value="";
+  $("previewBox").classList.add("hidden");
+  $("resultBox").classList.add("hidden");
+  $("previewImage").src="";
+  $("ocrText").value="";
+}
 
+/* NAVIGATION */
+function showPage(page){
 
-  analysisRunning = true;
+  ["home","history","profile","settings"].forEach(id=>{
+    $(id).classList.add("hidden");
+  });
 
+  $(page).classList.remove("hidden");
 
-  document.getElementById(
-    "executeButton"
-  ).disabled =
-    true;
+  ["navHome","navHistory","navProfile","navSettings"]
+    .forEach(id=>$(id).classList.remove("active"));
 
+  const nav={
+    home:"navHome",
+    history:"navHistory",
+    profile:"navProfile",
+    settings:"navSettings"
+  };
 
-  document.getElementById(
-    "analysisCard"
-  ).style.display =
-    "block";
+  $(nav[page]).classList.add("active");
 
+  if(page==="history")loadHistory();
+}
 
-  document.getElementById(
-    "actualCard"
-  ).style.display =
-    "none";
+/* THEME */
+function toggleTheme(){
 
+  document.body.classList.toggle("light");
 
-  document.getElementById(
-    "resultCard"
-  ).style.display =
-    "none";
+  localStorage.setItem(
+    "thanujTheme",
+    document.body.classList.contains("light")
+      ? "light"
+      : "dark"
+  );
+}
 
+if(localStorage.getItem("thanujTheme")==="light"){
+  document.body.classList.add("light");
+}
 
-  document.getElementById(
-    "periodDisplay"
-  ).textContent =
-    period;
+/* CLEAR HISTORY */
+function clearHistory(){
 
+  localStorage.removeItem("thanujHistory");
+  loadHistory();
+  toast("History cleared");
+}
 
-  document.getElementById(
-    "analysisMatch"
-  ).textContent =
-    matchPercentage + "%";
+/* LOGOUT */
+function logout(){
 
+  localStorage.removeItem("thanujUser");
 
-  document.getElementById(
-    "sample"
-  ).textContent =
-    detectedChartSequence.length;
+  $("app").classList.add("hidden");
+  $("login").classList.remove("hidden");
 
+  $("loginName").value="";
+  $("loginEmail").value="";
 
-  document.getEl
+  showPage("home");
+
+  toast("Logged out");
+}
+
+/* TOAST */
+function toast(message){
+
+  const t=$("toast");
+
+  t.textContent=message;
+  t.classList.add("show");
+
+  setTimeout(()=>{
+    t.classList.remove("show");
+  },2200);
+}
+</script>
+
+</body>
+    </html>
