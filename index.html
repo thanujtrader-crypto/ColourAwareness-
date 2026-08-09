@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0,user-scalable=no">
+
 <title>THANUJ Analyzing</title>
 
 <style>
@@ -10,346 +13,515 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,sans-serif;
 }
 
-body{
-  background:#0b1020;
-  color:white;
-  min-height:100vh;
+html,body{
+  width:100%;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#080d1c;
+  color:#fff;
 }
 
 button,input{
-  font:inherit;
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .hidden{
   display:none!important;
 }
 
-/* SPLASH */
+/* ================= SPLASH ================= */
+
 #splash{
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#111936,#241052);
+  z-index:99999;
+  background:#080d1c;
   display:flex;
-  align-items:center;
   justify-content:center;
-  z-index:9999;
+  align-items:center;
   text-align:center;
 }
 
-.logo{
+.splashLogo{
   width:95px;
   height:95px;
-  border-radius:25px;
-  background:linear-gradient(135deg,#6c63ff,#00d4ff);
+  border-radius:26px;
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:38px;
-  font-weight:bold;
-  margin:auto;
-  box-shadow:0 0 35px #514cff;
+  font-size:42px;
+  font-weight:900;
+  background:linear-gradient(135deg,#635bff,#00d9ff);
+  box-shadow:0 0 35px rgba(0,210,255,.35);
 }
 
-.splash-title{
-  font-size:30px;
-  font-weight:bold;
+.splashTitle{
   margin-top:20px;
+  font-size:30px;
+  font-weight:800;
 }
 
-.splash-sub{
-  color:#b9c2e8;
+.splashText{
   margin-top:8px;
+  color:#9da9cc;
 }
 
-/* LOGIN */
-.screen{
+/* ================= LOGIN ================= */
+
+#loginScreen{
   min-height:100vh;
-  padding:25px 18px 90px;
+  padding:25px 18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.card{
-  max-width:500px;
-  margin:50px auto;
-  background:#151c35;
-  border:1px solid #303b63;
-  border-radius:22px;
+.loginCard{
+  width:100%;
+  max-width:440px;
   padding:25px;
-  box-shadow:0 15px 40px #0006;
+  border-radius:24px;
+  background:#121a31;
+  border:1px solid #29375e;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 
-h1,h2{
-  margin-bottom:10px;
+.loginLogo{
+  width:70px;
+  height:70px;
+  margin:0 auto 18px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(135deg,#635bff,#00d9ff);
 }
 
-.muted{
-  color:#aeb8db;
+.loginCard h1{
+  text-align:center;
+  font-size:24px;
+}
+
+.subtitle{
+  color:#9da9cc;
+  text-align:center;
+  margin-top:7px;
   line-height:1.5;
+}
+
+label{
+  display:block;
+  margin-top:20px;
+  margin-bottom:7px;
+  color:#dbe2ff;
+  font-size:14px;
 }
 
 input{
   width:100%;
-  padding:14px;
-  margin:9px 0;
-  border:1px solid #3b4770;
+  height:50px;
   border-radius:12px;
-  background:#0e1429;
-  color:white;
+  border:1px solid #34446e;
+  background:#0a1022;
+  color:#fff;
+  padding:0 14px;
   outline:none;
 }
 
 input:focus{
-  border-color:#6c63ff;
+  border-color:#00cfff;
 }
 
-.btn{
+.mainBtn{
   width:100%;
+  min-height:50px;
   border:0;
-  padding:14px;
+  border-radius:13px;
+  margin-top:14px;
+  color:#fff;
+  font-weight:700;
+  background:linear-gradient(90deg,#635bff,#00cfff);
+}
+
+.darkBtn{
+  width:100%;
+  min-height:50px;
+  border:1px solid #35436c;
   border-radius:13px;
   margin-top:10px;
-  background:linear-gradient(90deg,#6c63ff,#00bfff);
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
+  color:#fff;
+  background:#1a2442;
+  font-weight:700;
 }
 
-.btn.secondary{
-  background:#252e4f;
-}
-
-#loginMsg{
-  margin-top:12px;
-  color:#76e4ff;
+.message{
   text-align:center;
+  margin-top:13px;
+  color:#6ee7ff;
+  min-height:20px;
+  font-size:14px;
 }
 
-/* APP */
+.note{
+  margin-top:18px;
+  padding:13px;
+  border-radius:12px;
+  background:#171d34;
+  border:1px solid #353d61;
+  color:#9da9cc;
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* ================= APP ================= */
+
 #app{
   min-height:100vh;
-  padding-bottom:80px;
+  padding-bottom:75px;
 }
 
-.topbar{
-  padding:18px;
-  background:#11182e;
-  border-bottom:1px solid #293453;
+.top{
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:100;
+  padding:17px;
+  background:#0d1429;
+  border-bottom:1px solid #263453;
 }
 
-.topbar-title{
-  font-size:22px;
-  font-weight:bold;
+.topTitle{
+  font-size:21px;
+  font-weight:800;
 }
 
-.topbar-sub{
+.topSub{
+  color:#8592b9;
   font-size:12px;
-  color:#8e9bc5;
   margin-top:3px;
 }
 
 .page{
   display:none;
-  padding:20px 16px;
+  width:100%;
   max-width:700px;
   margin:auto;
+  padding:18px 15px 25px;
 }
 
 .page.active{
   display:block;
 }
 
+/* ================= HOME ================= */
+
 .hero{
-  background:linear-gradient(135deg,#18234a,#261449);
-  border:1px solid #39466f;
-  padding:22px;
+  padding:21px;
   border-radius:20px;
+  background:linear-gradient(135deg,#18234a,#25133e);
+  border:1px solid #36466e;
   margin-bottom:18px;
 }
 
 .hero h2{
   font-size:25px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  color:#aeb9dc;
+  line-height:1.5;
 }
 
 .upload{
-  border:2px dashed #56628f;
-  border-radius:20px;
-  padding:30px 15px;
+  display:block;
+  padding:35px 15px;
   text-align:center;
-  background:#121a32;
-  cursor:pointer;
+  border-radius:20px;
+  border:2px dashed #52628f;
+  background:#11192f;
 }
 
-.upload-icon{
-  font-size:42px;
-  margin-bottom:10px;
+.uploadIcon{
+  font-size:45px;
+  margin-bottom:12px;
 }
 
-.preview-box{
-  margin-top:18px;
+.upload h3{
+  margin-bottom:6px;
+}
+
+.upload p{
+  color:#8997bd;
+  font-size:13px;
+}
+
+.fileInput{
   display:none;
 }
 
-.preview-box img{
+.preview{
+  display:none;
+  margin-top:17px;
+  padding:12px;
+  border-radius:18px;
+  background:#11192e;
+  border:1px solid #303d63;
+}
+
+.preview img{
   width:100%;
-  max-height:350px;
+  max-height:360px;
   object-fit:contain;
-  border-radius:16px;
-  background:#070b16;
+  border-radius:12px;
+  background:#050914;
 }
 
-.progress{
-  height:9px;
-  background:#252e49;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:15px;
-}
-
-.progress-bar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#6c63ff,#00d4ff);
-  transition:.3s;
+.imageName{
+  color:#a9b5d6;
+  font-size:12px;
+  margin-top:9px;
+  word-break:break-all;
 }
 
 .result{
-  margin-top:18px;
-  background:#11192e;
-  border:1px solid #303c62;
-  border-radius:16px;
+  margin-top:16px;
   padding:17px;
-  white-space:pre-wrap;
+  border-radius:17px;
+  background:#11192e;
+  border:1px solid #303d63;
   line-height:1.6;
 }
 
-.history-item{
-  background:#151d36;
-  border:1px solid #303b60;
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:10px;
+.resultTitle{
+  color:#6ee7ff;
+  font-weight:700;
+  margin-bottom:8px;
 }
 
-.profile-box{
+.warning{
+  margin-top:16px;
+  padding:13px;
+  border-radius:13px;
+  background:#171c31;
+  border:1px solid #393f60;
+  color:#aeb8d5;
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* ================= HISTORY ================= */
+
+.empty{
   text-align:center;
-  padding:20px;
-  background:#151d36;
+  padding:40px 15px;
+  color:#8490b5;
+}
+
+.historyCard{
+  padding:16px;
+  border-radius:15px;
+  background:#121a31;
+  border:1px solid #2d3a60;
+  margin-bottom:11px;
+}
+
+.historyDate{
+  color:#7381a9;
+  font-size:11px;
+  margin-bottom:9px;
+}
+
+.historyText{
+  color:#d9e0f5;
+  font-size:14px;
+  word-break:break-word;
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+  padding:25px;
   border-radius:20px;
+  background:#121a31;
+  border:1px solid #2d3a60;
+  text-align:center;
 }
 
 .avatar{
-  width:80px;
-  height:80px;
+  width:85px;
+  height:85px;
+  margin:auto;
   border-radius:50%;
-  background:linear-gradient(135deg,#6c63ff,#00cfff);
   display:flex;
-  align-items:center;
   justify-content:center;
-  margin:0 auto 15px;
-  font-size:30px;
-  font-weight:bold;
+  align-items:center;
+  background:linear-gradient(135deg,#635bff,#00d9ff);
+  font-size:32px;
+  font-weight:900;
 }
 
+.profile h2{
+  margin-top:14px;
+}
+
+.info{
+  margin-top:16px;
+  padding:15px;
+  text-align:left;
+  border-radius:14px;
+  background:#0c1327;
+  border:1px solid #29375b;
+}
+
+.infoTitle{
+  color:#8290b7;
+  font-size:12px;
+}
+
+.infoValue{
+  margin-top:5px;
+  word-break:break-word;
+}
+
+/* ================= SETTINGS ================= */
+
 .setting{
-  background:#151d36;
-  border:1px solid #303b60;
   padding:17px;
   border-radius:15px;
-  margin-bottom:10px;
+  background:#121a31;
+  border:1px solid #2d3a60;
+  margin-bottom:11px;
 }
+
+.settingTitle{
+  font-weight:700;
+}
+
+.settingText{
+  color:#8e9abc;
+  font-size:13px;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+/* ================= NAV ================= */
 
 .nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:68px;
-  background:#10172b;
-  border-top:1px solid #2c385b;
+  height:70px;
+  z-index:500;
   display:flex;
-  justify-content:space-around;
-  z-index:100;
+  background:#0d1429;
+  border-top:1px solid #29375a;
 }
 
-.nav button{
+.navBtn{
   flex:1;
   border:0;
-  background:none;
-  color:#8793ba;
+  background:transparent;
+  color:#7180a7;
   font-size:11px;
-  cursor:pointer;
 }
 
-.nav button span{
+.navIcon{
   display:block;
   font-size:22px;
   margin-bottom:3px;
 }
 
-.nav button.active{
-  color:#72ddff;
+.navBtn.active{
+  color:#65ddff;
 }
 
-.warning{
-  background:#2b2030;
-  border:1px solid #68405d;
-  color:#f0bfdc;
-  padding:13px;
-  border-radius:13px;
-  margin-top:15px;
-  font-size:13px;
-  line-height:1.5;
+/* ================= SMALL PHONES ================= */
+
+@media(max-width:360px){
+
+  .loginCard{
+    padding:20px;
+  }
+
+  .hero h2{
+    font-size:22px;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
+<!-- ================= SPLASH ================= -->
+
 <div id="splash">
+
   <div>
-    <div class="logo">T</div>
-    <div class="splash-title">THANUJ</div>
-    <div class="splash-sub">Educational Image Analysis</div>
+
+    <div class="splashLogo">T</div>
+
+    <div class="splashTitle">
+      THANUJ
+    </div>
+
+    <div class="splashText">
+      Educational Image Analysis
+    </div>
+
   </div>
+
 </div>
 
-<!-- LOGIN -->
-<section id="login" class="screen hidden">
-  <div class="card">
 
-    <div class="logo" style="width:75px;height:75px;font-size:30px;">
+<!-- ================= LOGIN ================= -->
+
+<section id="loginScreen">
+
+  <div class="loginCard">
+
+    <div class="loginLogo">
       T
     </div>
 
-    <h1 style="text-align:center;margin-top:20px;">
-      THANUJ Analyzing
-    </h1>
+    <h1>THANUJ Analyzing</h1>
 
-    <p class="muted" style="text-align:center;">
-      Sign in to continue
+    <p class="subtitle">
+      Educational Image Analysis App
     </p>
 
-    <label>Phone Number</label>
+    <label for="phone">
+      Phone Number
+    </label>
+
     <input
       id="phone"
       type="tel"
       inputmode="numeric"
       maxlength="10"
-      placeholder="Enter 10-digit phone number">
+      placeholder="10-digit phone number">
 
-    <button class="btn" onclick="sendOTP()">
+    <button
+      class="mainBtn"
+      id="sendOtpBtn">
       Send OTP
     </button>
 
-    <div id="otpArea" class="hidden">
-      <label style="display:block;margin-top:15px;">
-        Demo OTP
+    <div id="otpSection" class="hidden">
+
+      <label for="otp">
+        OTP
       </label>
 
       <input
@@ -359,502 +531,861 @@ input:focus{
         maxlength="6"
         placeholder="Enter OTP">
 
-      <button class="btn" onclick="verifyOTP()">
-        Verify OTP
+      <button
+        class="mainBtn"
+        id="verifyBtn">
+        Verify & Continue
       </button>
+
     </div>
 
-    <p id="loginMsg"></p>
-
-    <div class="warning">
-      Educational application only. Do not use this app for financial,
-      gambling, or other risky decisions.
+    <div
+      id="loginMessage"
+      class="message">
     </div>
+
+    <div class="note">
+      Demo login only. No real SMS is sent.
+      For testing, use OTP <b>123456</b>.
+    </div>
+
   </div>
+
 </section>
 
-<!-- APP -->
+
+<!-- ================= APPLICATION ================= -->
+
 <div id="app" class="hidden">
 
-  <div class="topbar">
-    <div class="topbar-title">THANUJ Analyzing</div>
-    <div class="topbar-sub">Educational Image Analysis</div>
-  </div>
+  <header class="top">
 
-  <!-- HOME -->
-  <section id="homePage" class="page active">
-
-    <div class="hero">
-      <h2>Image Analysis</h2>
-      <p class="muted">
-        Upload an educational image and extract visible text using OCR.
-      </p>
+    <div class="topTitle">
+      THANUJ Analyzing
     </div>
 
-    <label class="upload" for="imageInput">
-      <div class="upload-icon">📷</div>
-      <h3>Choose Image</h3>
-      <p class="muted">
-        Tap here to select an image from your phone
+    <div class="topSub">
+      Educational Image Analysis
+    </div>
+
+  </header>
+
+
+  <!-- HOME -->
+
+  <section
+    id="home"
+    class="page active">
+
+    <div class="hero">
+
+      <h2>
+        Image Analysis
+      </h2>
+
+      <p>
+        Select an educational image from your phone
+        to preview and analyze it.
       </p>
+
+    </div>
+
+
+    <label
+      class="upload"
+      for="imagePicker">
+
+      <div class="uploadIcon">
+        📷
+      </div>
+
+      <h3>
+        Select Image
+      </h3>
+
+      <p>
+        Tap here to open your gallery
+      </p>
+
     </label>
 
     <input
-      id="imageInput"
+      id="imagePicker"
+      class="fileInput"
       type="file"
-      accept="image/*"
-      style="display:none">
+      accept="image/*">
 
-    <div id="previewBox" class="preview-box">
-      <img id="preview" alt="Selected image">
 
-      <div class="progress">
-        <div id="progressBar" class="progress-bar"></div>
+    <div
+      id="previewBox"
+      class="preview">
+
+      <img
+        id="imagePreview"
+        alt="Selected image">
+
+      <div
+        id="imageName"
+        class="imageName">
       </div>
 
-      <button class="btn" onclick="runOCR()">
+      <button
+        id="analyzeBtn"
+        class="mainBtn">
         🔍 Analyze Image
       </button>
 
-      <button class="btn secondary" onclick="clearImage()">
+      <button
+        id="removeBtn"
+        class="darkBtn">
         Remove Image
       </button>
+
     </div>
 
-    <div id="ocrResult" class="result hidden">
-      OCR result will appear here.
+
+    <div
+      id="analysisResult"
+      class="result hidden">
+
+      <div class="resultTitle">
+        Analysis
+      </div>
+
+      <div id="analysisText">
+      </div>
+
     </div>
+
 
     <div class="warning">
-      OCR reads text from an image. It does not guarantee that any
-      prediction, decision, or conclusion is correct.
+
+      This is an educational image-analysis application.
+      The analysis shown here should not be treated as a guaranteed
+      prediction or financial decision.
+
     </div>
 
   </section>
+
 
   <!-- HISTORY -->
-  <section id="historyPage" class="page">
-    <h2>History</h2>
-    <p class="muted" style="margin-bottom:18px;">
-      Previous image-analysis sessions.
+
+  <section
+    id="history"
+    class="page">
+
+    <h2>
+      History
+    </h2>
+
+    <p class="subtitle"
+       style="text-align:left;margin-bottom:17px;">
+      Your previous image-analysis sessions.
     </p>
 
-    <div id="historyList"></div>
+    <div id="historyContainer">
+    </div>
 
-    <button class="btn secondary" onclick="clearHistory()">
+    <button
+      id="clearHistoryBtn"
+      class="darkBtn">
       Clear History
     </button>
+
   </section>
+
 
   <!-- PROFILE -->
-  <section id="profilePage" class="page">
-    <h2>Profile</h2>
 
-    <div class="profile-box">
-      <div class="avatar">T</div>
+  <section
+    id="profile"
+    class="page">
 
-      <h2 id="profileName">THANUJ</h2>
+    <h2>
+      Profile
+    </h2>
 
-      <p class="muted">
+    <div class="profile">
+
+      <div class="avatar">
+        T
+      </div>
+
+      <h2>
+        THANUJ
+      </h2>
+
+      <p class="subtitle">
         Educational User
       </p>
+
+      <div class="info">
+
+        <div class="infoTitle">
+          Phone Number
+        </div>
+
+        <div
+          id="profilePhone"
+          class="infoValue">
+          —
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="setting" style="margin-top:15px;">
-      <b>Phone</b>
-      <p id="profilePhone" class="muted">Not available</p>
-    </div>
   </section>
+
 
   <!-- SETTINGS -->
-  <section id="settingsPage" class="page">
-    <h2>Settings</h2>
+
+  <section
+    id="settings"
+    class="page">
+
+    <h2>
+      Settings
+    </h2>
 
     <div class="setting">
-      <b>Application</b>
-      <p class="muted">
+
+      <div class="settingTitle">
+        App
+      </div>
+
+      <div class="settingText">
         THANUJ Educational Image Analysis
-      </p>
+      </div>
+
     </div>
 
     <div class="setting">
-      <b>OCR</b>
-      <p class="muted">
-        Text extraction is performed through the browser.
-      </p>
+
+      <div class="settingTitle">
+        Storage
+      </div>
+
+      <div class="settingText">
+        History is stored locally in your browser.
+      </div>
+
     </div>
 
     <div class="setting">
-      <b>Privacy</b>
-      <p class="muted">
-        Selected images are processed in this browser session.
-      </p>
+
+      <div class="settingTitle">
+        About
+      </div>
+
+      <div class="settingText">
+        Single-file educational web application
+        designed for GitHub Pages.
+      </div>
+
     </div>
 
-    <button class="btn secondary" onclick="logout()">
+    <button
+      id="logoutBtn"
+      class="darkBtn">
       Log Out
     </button>
+
   </section>
 
+
   <!-- NAVIGATION -->
+
   <nav class="nav">
 
-    <button class="active" onclick="showPage('homePage',this)">
-      <span>🏠</span>
+    <button
+      class="navBtn active"
+      data-page="home">
+
+      <span class="navIcon">🏠</span>
       Home
+
     </button>
 
-    <button onclick="showPage('historyPage',this)">
-      <span>🕘</span>
+    <button
+      class="navBtn"
+      data-page="history">
+
+      <span class="navIcon">🕘</span>
       History
+
     </button>
 
-    <button onclick="showPage('profilePage',this)">
-      <span>👤</span>
+    <button
+      class="navBtn"
+      data-page="profile">
+
+      <span class="navIcon">👤</span>
       Profile
+
     </button>
 
-    <button onclick="showPage('settingsPage',this)">
-      <span>⚙️</span>
+    <button
+      class="navBtn"
+      data-page="settings">
+
+      <span class="navIcon">⚙️</span>
       Settings
+
     </button>
 
   </nav>
+
 </div>
 
-<!-- OCR LIBRARY -->
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <script>
-/* -------------------------
-   STARTUP
--------------------------- */
 
-window.addEventListener("load", function(){
+/* =====================================================
+   THANUJ APP
+   No external libraries.
+   No external scripts.
+   ===================================================== */
+
+(function(){
+
+"use strict";
+
+
+/* ---------- ELEMENTS ---------- */
+
+var splash =
+  document.getElementById("splash");
+
+var loginScreen =
+  document.getElementById("loginScreen");
+
+var app =
+  document.getElementById("app");
+
+var phone =
+  document.getElementById("phone");
+
+var otp =
+  document.getElementById("otp");
+
+var otpSection =
+  document.getElementById("otpSection");
+
+var loginMessage =
+  document.getElementById("loginMessage");
+
+var imagePicker =
+  document.getElementById("imagePicker");
+
+var previewBox =
+  document.getElementById("previewBox");
+
+var imagePreview =
+  document.getElementById("imagePreview");
+
+var imageName =
+  document.getElementById("imageName");
+
+var analysisResult =
+  document.getElementById("analysisResult");
+
+var analysisText =
+  document.getElementById("analysisText");
+
+var historyContainer =
+  document.getElementById("historyContainer");
+
+var profilePhone =
+  document.getElementById("profilePhone");
+
+
+/* ---------- SAFE LOCAL STORAGE ---------- */
+
+function getStorage(key){
+
+  try{
+    return localStorage.getItem(key);
+  }catch(e){
+    return null;
+  }
+
+}
+
+function setStorage(key,value){
+
+  try{
+    localStorage.setItem(key,value);
+  }catch(e){}
+
+}
+
+function removeStorage(key){
+
+  try{
+    localStorage.removeItem(key);
+  }catch(e){}
+
+}
+
+
+/* ---------- START APP ---------- */
+
+function startApp(){
+
+  /*
+    Splash is deliberately controlled with plain JS.
+    There is no external library that can block it.
+  */
 
   setTimeout(function(){
 
-    document.getElementById("splash").classList.add("hidden");
+    splash.classList.add("hidden");
 
-    if(localStorage.getItem("thanujLoggedIn") === "true"){
-      openApp();
+    if(getStorage("thanuj_logged") === "yes"){
+
+      showApp();
+
     }else{
-      document.getElementById("login").classList.remove("hidden");
+
+      loginScreen.classList.remove("hidden");
+
     }
 
-  },1200);
+  },800);
+
+}
+
+
+/* ---------- LOGIN ---------- */
+
+document
+.getElementById("sendOtpBtn")
+.addEventListener("click",function(){
+
+  var number =
+    phone.value.trim();
+
+  if(!/^[0-9]{10}$/.test(number)){
+
+    loginMessage.textContent =
+      "Enter a valid 10-digit phone number.";
+
+    return;
+
+  }
+
+  setStorage("thanuj_phone",number);
+
+  otpSection.classList.remove("hidden");
+
+  loginMessage.textContent =
+    "Demo OTP sent. Use 123456.";
 
 });
 
 
-/* -------------------------
-   LOGIN
--------------------------- */
+document
+.getElementById("verifyBtn")
+.addEventListener("click",function(){
 
-function sendOTP(){
+  var code =
+    otp.value.trim();
 
-  const phone =
-    document.getElementById("phone").value.trim();
+  if(code !== "123456"){
 
-  if(!/^[0-9]{10}$/.test(phone)){
-    document.getElementById("loginMsg").textContent =
-      "Please enter a valid 10-digit phone number.";
+    loginMessage.textContent =
+      "Wrong OTP. Please enter 123456.";
+
     return;
+
   }
 
-  document.getElementById("otpArea")
-    .classList.remove("hidden");
+  setStorage("thanuj_logged","yes");
 
-  document.getElementById("loginMsg").textContent =
-    "Demo OTP generated. Enter 123456.";
+  showApp();
 
-  localStorage.setItem("thanujPhone",phone);
-}
+});
 
 
-function verifyOTP(){
+/* ---------- SHOW APP ---------- */
 
-  const otp =
-    document.getElementById("otp").value.trim();
+function showApp(){
 
-  if(otp !== "123456"){
-    document.getElementById("loginMsg").textContent =
-      "Incorrect demo OTP. Use 123456.";
-    return;
-  }
+  loginScreen.classList.add("hidden");
 
-  localStorage.setItem("thanujLoggedIn","true");
+  app.classList.remove("hidden");
 
-  openApp();
-}
+  var savedPhone =
+    getStorage("thanuj_phone");
 
+  if(savedPhone){
 
-function openApp(){
+    profilePhone.textContent =
+      savedPhone;
 
-  document.getElementById("login")
-    .classList.add("hidden");
-
-  document.getElementById("app")
-    .classList.remove("hidden");
-
-  const phone =
-    localStorage.getItem("thanujPhone");
-
-  if(phone){
-    document.getElementById("profilePhone")
-      .textContent = phone;
   }
 
   loadHistory();
+
 }
 
 
-function logout(){
+/* ---------- LOGOUT ---------- */
 
-  localStorage.removeItem("thanujLoggedIn");
+document
+.getElementById("logoutBtn")
+.addEventListener("click",function(){
 
-  document.getElementById("app")
-    .classList.add("hidden");
+  removeStorage("thanuj_logged");
 
-  document.getElementById("login")
-    .classList.remove("hidden");
-}
+  app.classList.add("hidden");
 
+  loginScreen.classList.remove("hidden");
 
-/* -------------------------
-   NAVIGATION
--------------------------- */
+  otpSection.classList.add("hidden");
 
-function showPage(pageId,button){
+  otp.value = "";
 
-  document.querySelectorAll(".page")
-    .forEach(page => page.classList.remove("active"));
+  loginMessage.textContent = "";
 
-  document.getElementById(pageId)
-    .classList.add("active");
-
-  document.querySelectorAll(".nav button")
-    .forEach(btn => btn.classList.remove("active"));
-
-  button.classList.add("active");
-
-  if(pageId === "historyPage"){
-    loadHistory();
-  }
-}
-
-
-/* -------------------------
-   IMAGE UPLOAD
--------------------------- */
-
-const imageInput =
-  document.getElementById("imageInput");
-
-imageInput.addEventListener("change",function(){
-
-  const file = this.files[0];
-
-  if(!file){
-    return;
-  }
-
-  if(!file.type.startsWith("image/")){
-    alert("Please select an image file.");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = function(event){
-
-    document.getElementById("preview")
-      .src = event.target.result;
-
-    document.getElementById("previewBox")
-      .style.display = "block";
-
-    document.getElementById("ocrResult")
-      .classList.add("hidden");
-
-    document.getElementById("progressBar")
-      .style.width = "0%";
-  };
-
-  reader.readAsDataURL(file);
 });
 
 
-function clearImage(){
+/* ---------- NAVIGATION ---------- */
 
-  imageInput.value = "";
+var navButtons =
+  document.querySelectorAll(".navBtn");
 
-  document.getElementById("previewBox")
-    .style.display = "none";
-
-  document.getElementById("ocrResult")
-    .classList.add("hidden");
-}
+var pages =
+  document.querySelectorAll(".page");
 
 
-/* -------------------------
-   OCR
--------------------------- */
+navButtons.forEach(function(button){
 
-async function runOCR(){
+  button.addEventListener("click",function(){
 
-  const image =
-    document.getElementById("preview").src;
+    var target =
+      button.getAttribute("data-page");
 
-  if(!image){
-    alert("Please select an image first.");
+    pages.forEach(function(page){
+
+      page.classList.remove("active");
+
+    });
+
+    var selected =
+      document.getElementById(target);
+
+    if(selected){
+
+      selected.classList.add("active");
+
+    }
+
+    navButtons.forEach(function(btn){
+
+      btn.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+
+    if(target === "history"){
+
+      loadHistory();
+
+    }
+
+  });
+
+});
+
+
+/* ---------- IMAGE PICKER ---------- */
+
+imagePicker.addEventListener("change",function(event){
+
+  var file =
+    event.target.files &&
+    event.target.files[0];
+
+  if(!file){
+
     return;
+
   }
 
-  const result =
-    document.getElementById("ocrResult");
+  if(file.type.indexOf("image/") !== 0){
 
-  const progress =
-    document.getElementById("progressBar");
+    alert("Please select an image.");
 
-  result.classList.remove("hidden");
+    imagePicker.value = "";
 
-  result.textContent =
-    "Starting OCR... Please wait.";
+    return;
 
-  progress.style.width = "5%";
+  }
+
+  var reader =
+    new FileReader();
+
+  reader.onload = function(e){
+
+    imagePreview.src =
+      e.target.result;
+
+    imageName.textContent =
+      file.name;
+
+    previewBox.style.display =
+      "block";
+
+    analysisResult.classList.add(
+      "hidden"
+    );
+
+  };
+
+  reader.onerror = function(){
+
+    alert("The image could not be opened.");
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* ---------- IMAGE ANALYSIS ---------- */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click",function(){
+
+  if(!imagePreview.src){
+
+    alert("Please select an image first.");
+
+    return;
+
+  }
+
+  analysisResult.classList.remove(
+    "hidden"
+  );
+
+  analysisText.innerHTML =
+    "Analyzing the selected image...";
+
+  setTimeout(function(){
+
+    var width =
+      imagePreview.naturalWidth;
+
+    var height =
+      imagePreview.naturalHeight;
+
+    var ratio =
+      width && height
+      ? (width / height).toFixed(2)
+      : "Unknown";
+
+    analysisText.innerHTML =
+      "<b>Image loaded successfully.</b><br><br>" +
+
+      "File: " +
+      escapeHTML(imageName.textContent) +
+      "<br>" +
+
+      "Width: " +
+      width +
+      " px<br>" +
+
+      "Height: " +
+      height +
+      " px<br>" +
+
+      "Aspect ratio: " +
+      ratio +
+      "<br><br>" +
+
+      "The image is ready for educational review. " +
+      "This version confirms that the image was successfully " +
+      "loaded and does not make guaranteed predictions.";
+
+    saveHistory(
+      imageName.textContent,
+      width,
+      height
+    );
+
+  },500);
+
+});
+
+
+/* ---------- REMOVE IMAGE ---------- */
+
+document
+.getElementById("removeBtn")
+.addEventListener("click",function(){
+
+  imagePicker.value = "";
+
+  imagePreview.removeAttribute("src");
+
+  imageName.textContent = "";
+
+  previewBox.style.display =
+    "none";
+
+  analysisResult.classList.add(
+    "hidden"
+  );
+
+});
+
+
+/* ---------- HISTORY ---------- */
+
+function saveHistory(name,width,height){
+
+  var history = [];
 
   try{
 
-    const worker =
-      await Tesseract.createWorker("eng",1,{
-        logger:function(info){
+    history =
+      JSON.parse(
+        getStorage("thanuj_history") || "[]"
+      );
 
-          if(info.status === "recognizing text"){
+  }catch(e){
 
-            const percent =
-              Math.round((info.progress || 0) * 100);
+    history = [];
 
-            progress.style.width =
-              percent + "%";
-
-            result.textContent =
-              "Analyzing image... " +
-              percent + "%";
-          }
-
-        }
-      });
-
-    const output =
-      await worker.recognize(image);
-
-    await worker.terminate();
-
-    progress.style.width = "100%";
-
-    const text =
-      output.data.text.trim();
-
-    if(text){
-
-      result.textContent =
-        "Extracted Text:\n\n" + text;
-
-      saveHistory(text);
-
-    }else{
-
-      result.textContent =
-        "No readable text was detected in this image.";
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-    result.textContent =
-      "OCR could not run. Check your internet connection and try again.";
   }
-}
-
-
-/* -------------------------
-   HISTORY
--------------------------- */
-
-function saveHistory(text){
-
-  let history =
-    JSON.parse(
-      localStorage.getItem("thanujHistory") || "[]"
-    );
 
   history.unshift({
-    text:text,
+
+    name:name,
+
+    width:width,
+
+    height:height,
+
     date:new Date().toLocaleString()
+
   });
 
   history =
     history.slice(0,20);
 
-  localStorage.setItem(
-    "thanujHistory",
+  setStorage(
+    "thanuj_history",
     JSON.stringify(history)
   );
+
+  loadHistory();
+
 }
 
 
 function loadHistory(){
 
-  const list =
-    document.getElementById("historyList");
-
-  const history =
-    JSON.parse(
-      localStorage.getItem("thanujHistory") || "[]"
-    );
-
-  if(history.length === 0){
-
-    list.innerHTML =
-      '<div class="history-item">No analysis history yet.</div>';
+  if(!historyContainer){
 
     return;
+
   }
 
-  list.innerHTML =
-    history.map(function(item){
+  var history = [];
 
-      return `
-        <div class="history-item">
-          <small class="muted">${escapeHTML(item.date)}</small>
-          <br><br>
-          ${escapeHTML(item.text).substring(0,500)}
-        </div>
-      `;
+  try{
 
-    }).join("");
+    history =
+      JSON.parse(
+        getStorage("thanuj_history") || "[]"
+      );
+
+  }catch(e){
+
+    history = [];
+
+  }
+
+  if(!history.length){
+
+    historyContainer.innerHTML =
+      '<div class="empty">' +
+      'No analysis history yet.' +
+      '</div>';
+
+    return;
+
+  }
+
+  var html = "";
+
+  history.forEach(function(item){
+
+    html +=
+      '<div class="historyCard">' +
+
+      '<div class="historyDate">' +
+      escapeHTML(item.date || "") +
+      '</div>' +
+
+      '<div class="historyText">' +
+      escapeHTML(item.name || "Image") +
+      '<br>' +
+      (item.width || 0) +
+      ' × ' +
+      (item.height || 0) +
+      ' pixels' +
+      '</div>' +
+
+      '</div>';
+
+  });
+
+  historyContainer.innerHTML =
+    html;
+
 }
 
 
-function clearHistory(){
+document
+.getElementById("clearHistoryBtn")
+.addEventListener("click",function(){
 
-  localStorage.removeItem("thanujHistory");
+  removeStorage("thanuj_history");
 
   loadHistory();
-}
+
+});
 
 
-function escapeHTML(text){
+/* ---------- ESCAPE HTML ---------- */
 
-  return text
+function escapeHTML(value){
+
+  return String(value)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
+
+
+/* ---------- START ---------- */
+
+startApp();
+
+})();
 </script>
 
 </body>
