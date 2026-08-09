@@ -2,57 +2,99 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1020">
+
 <title>THANUJ Analyzing</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:#080d1c;
-  color:#fff;
+  color:white;
   min-height:100vh;
 }
-button,input{font:inherit}
+
+button,input,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* SPLASH */
 
 .splash{
   position:fixed;
   inset:0;
-  z-index:100;
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at top,#312e81,#080d1c 60%);
+}
+
+.logo{
+  width:90px;
+  height:90px;
+  border-radius:25px;
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
-  background:linear-gradient(135deg,#080d1c,#172554,#312e81);
-  transition:.5s;
+  font-size:42px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#38bdf8,#7c3aed);
+  box-shadow:0 0 45px #38bdf855;
 }
-.logo{
-  width:90px;height:90px;border-radius:25px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:38px;font-weight:bold;
-  background:linear-gradient(135deg,#38bdf8,#8b5cf6);
-  box-shadow:0 0 40px #38bdf855;
+
+.splash h1{
+  margin-top:20px;
+  font-size:28px;
 }
-.splash h1{margin-top:20px;font-size:28px}
-.splash p{margin-top:8px;color:#aab4d0}
+
+.splash p{
+  margin-top:8px;
+  color:#94a3b8;
+}
+
 .loader{
-  width:180px;height:5px;background:#ffffff20;
-  border-radius:10px;margin-top:25px;overflow:hidden
+  width:180px;
+  height:5px;
+  background:#ffffff20;
+  border-radius:10px;
+  margin-top:25px;
+  overflow:hidden;
 }
+
 .loader span{
-  display:block;width:50%;height:100%;
+  display:block;
+  width:50%;
+  height:100%;
   background:#38bdf8;
-  animation:load 1.5s infinite;
+  animation:loading 1.4s infinite;
 }
-@keyframes load{
-  from{transform:translateX(-100%)}
+
+@keyframes loading{
+  from{transform:translateX(-120%)}
   to{transform:translateX(300%)}
 }
 
-.hidden{display:none!important}
+/* LOGIN */
 
 .login{
   min-height:100vh;
@@ -60,61 +102,145 @@ button,input{font:inherit}
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:radial-gradient(circle at top,#172554,#080d1c 60%);
+  background:
+    radial-gradient(circle at top,#172554,#080d1c 65%);
 }
+
 .card{
   width:100%;
   max-width:430px;
-  background:#111827dd;
-  border:1px solid #ffffff15;
-  border-radius:25px;
   padding:30px;
-  box-shadow:0 20px 60px #0008;
+  border-radius:25px;
+  background:#111827e8;
+  border:1px solid #ffffff12;
+  box-shadow:0 20px 70px #0008;
 }
-.card h2{text-align:center;font-size:27px}
-.card .sub{text-align:center;color:#9ca3af;margin:8px 0 25px}
+
+.card h2{
+  text-align:center;
+  font-size:28px;
+}
+
+.sub{
+  text-align:center;
+  color:#94a3b8;
+  margin:8px 0 25px;
+}
+
 .input{
   width:100%;
   padding:14px;
-  margin:8px 0;
-  border:1px solid #ffffff15;
+  margin:7px 0;
   border-radius:12px;
-  background:#0b1020;
-  color:#fff;
+  border:1px solid #ffffff15;
+  background:#080d1c;
+  color:white;
   outline:none;
 }
+
 .primary{
   width:100%;
   border:0;
   padding:14px;
   margin-top:12px;
   border-radius:13px;
-  color:#fff;
+  color:white;
   font-weight:bold;
-  cursor:pointer;
   background:linear-gradient(90deg,#2563eb,#7c3aed);
 }
-.demo{text-align:center;color:#64748b;font-size:12px;margin-top:15px}
 
-.app{min-height:100vh;padding-bottom:80px}
+.small-note{
+  text-align:center;
+  color:#64748b;
+  font-size:12px;
+  margin-top:15px;
+}
+
+/* APP */
+
+.app{
+  min-height:100vh;
+  padding-bottom:80px;
+}
+
 .top{
-  padding:20px;
+  height:70px;
+  padding:0 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   background:#0b1020;
   border-bottom:1px solid #ffffff10;
 }
-.brand{font-size:20px;font-weight:bold}
-.brand span{color:#38bdf8}
-.avatar{
-  width:42px;height:42px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:#312e81;font-weight:bold;
+
+.brand{
+  font-weight:bold;
+  font-size:20px;
 }
-.page{padding:20px;max-width:850px;margin:auto}
-.page h1{font-size:28px;margin-bottom:6px}
-.muted{color:#94a3b8}
+
+.brand span{
+  color:#38bdf8;
+}
+
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#312e81;
+  font-weight:bold;
+}
+
+.page{
+  max-width:850px;
+  margin:auto;
+  padding:20px;
+}
+
+.page h1{
+  font-size:28px;
+  margin-bottom:5px;
+}
+
+.muted{
+  color:#94a3b8;
+}
+
+/* MENU CARDS */
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:22px;
+}
+
+.menu-card{
+  padding:20px;
+  border-radius:18px;
+  background:#111827;
+  border:1px solid #ffffff10;
+  cursor:pointer;
+}
+
+.menu-card b{
+  display:block;
+  margin-top:10px;
+}
+
+.menu-card p{
+  color:#94a3b8;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.icon{
+  font-size:30px;
+}
+
+/* UPLOAD */
 
 .upload{
   margin-top:22px;
@@ -124,26 +250,43 @@ button,input{font:inherit}
   text-align:center;
   background:#111827;
 }
-.upload-icon{font-size:45px}
-.upload h3{margin:12px 0 6px}
-.upload p{color:#94a3b8;font-size:14px}
+
+.upload-icon{
+  font-size:45px;
+}
+
+.upload h3{
+  margin:12px 0 6px;
+}
+
+.upload p{
+  color:#94a3b8;
+  font-size:14px;
+}
+
 .filebtn{
   display:inline-block;
   margin-top:18px;
   padding:13px 22px;
   border-radius:12px;
   background:#2563eb;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
 }
-#fileInput{display:none}
+
+#fileInput{
+  display:none;
+}
+
+/* PREVIEW */
 
 .preview{
   margin-top:20px;
-  background:#111827;
-  border-radius:20px;
   padding:15px;
+  border-radius:20px;
+  background:#111827;
 }
+
 .preview img{
   width:100%;
   max-height:420px;
@@ -152,148 +295,263 @@ button,input{font:inherit}
   background:#020617;
 }
 
-.action{
+.actions{
   display:flex;
   gap:10px;
   margin-top:12px;
 }
-.action button{
+
+.actions button{
   flex:1;
   padding:12px;
   border:0;
   border-radius:11px;
-  cursor:pointer;
-  color:#fff;
+  color:white;
   background:#1e293b;
 }
-.action .analyze{background:#7c3aed}
+
+.actions .analyze{
+  background:#7c3aed;
+}
+
+/* RESULT */
 
 .result{
   margin-top:20px;
+  padding:20px;
+  border-radius:20px;
   background:#111827;
   border:1px solid #ffffff10;
-  border-radius:20px;
-  padding:20px;
 }
-.result h3{margin-bottom:12px}
+
 .progress{
-  height:8px;background:#1e293b;
-  border-radius:20px;overflow:hidden;
+  height:8px;
   margin:12px 0;
+  border-radius:10px;
+  background:#1e293b;
+  overflow:hidden;
 }
+
 .progress span{
-  display:block;width:0;height:100%;
+  display:block;
+  width:0;
+  height:100%;
   background:#38bdf8;
   transition:.3s;
 }
+
 .ocr{
   width:100%;
   min-height:150px;
-  margin-top:12px;
   padding:15px;
   border-radius:12px;
   border:1px solid #ffffff10;
   background:#020617;
-  color:#e2e8f0;
+  color:white;
   resize:vertical;
 }
+
+/* PATTERN */
+
+.pattern-box{
+  margin-top:20px;
+  padding:20px;
+  border-radius:20px;
+  background:#111827;
+  border:1px solid #ffffff10;
+}
+
+.pattern-result{
+  margin-top:15px;
+  padding:15px;
+  border-radius:14px;
+  background:#020617;
+  line-height:1.6;
+}
+
+.notice{
+  margin-top:15px;
+  padding:12px;
+  border-radius:12px;
+  background:#172554;
+  color:#bfdbfe;
+  font-size:13px;
+}
+
+/* HISTORY */
 
 .history-item{
   margin-top:12px;
   padding:15px;
+  border-radius:15px;
   background:#111827;
   border:1px solid #ffffff10;
-  border-radius:15px;
 }
-.history-item small{color:#64748b}
+
+.history-item small{
+  color:#64748b;
+}
+
 .history-item p{
   margin-top:8px;
   color:#cbd5e1;
   white-space:pre-wrap;
 }
+
 .empty{
   text-align:center;
   padding:50px 20px;
   color:#64748b;
 }
 
-.profile-box,.setting{
-  margin-top:15px;
+/* PROFILE */
+
+.profile-box{
+  margin-top:18px;
+  padding:25px;
+  text-align:center;
+  border-radius:20px;
   background:#111827;
   border:1px solid #ffffff10;
-  border-radius:18px;
-  padding:20px;
 }
-.profile-big{
-  width:80px;height:80px;border-radius:50%;
-  background:#312e81;
-  display:flex;align-items:center;justify-content:center;
-  font-size:30px;font-weight:bold;
+
+.profile-avatar{
+  width:85px;
+  height:85px;
   margin:auto auto 15px;
-}
-.profile-box{text-align:center}
-.setting{
+  border-radius:50%;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:center;
+  background:#312e81;
+  font-size:32px;
+  font-weight:bold;
 }
+
+/* SETTINGS */
+
+.setting{
+  margin-top:15px;
+  padding:18px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#111827;
+  border:1px solid #ffffff10;
+}
+
 .setting button{
-  border:0;padding:9px 15px;border-radius:10px;
-  background:#2563eb;color:#fff;cursor:pointer;
+  border:0;
+  padding:9px 15px;
+  border-radius:10px;
+  color:white;
+  background:#2563eb;
 }
+
+/* NAV */
 
 .nav{
   position:fixed;
-  bottom:0;left:0;right:0;
+  left:0;
+  right:0;
+  bottom:0;
   height:70px;
   display:flex;
-  justify-content:space-around;
   align-items:center;
+  justify-content:space-around;
   background:#0b1020ee;
   backdrop-filter:blur(15px);
   border-top:1px solid #ffffff12;
-  z-index:20;
+  z-index:50;
 }
+
 .nav button{
-  border:0;background:none;color:#64748b;
-  cursor:pointer;text-align:center;
+  border:0;
+  background:none;
+  color:#64748b;
   font-size:12px;
 }
-.nav button b{display:block;font-size:22px;margin-bottom:3px}
-.nav button.active{color:#38bdf8}
+
+.nav button b{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+.nav button.active{
+  color:#38bdf8;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%);
+  padding:12px 18px;
+  border-radius:12px;
+  background:#1e293b;
+  color:white;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+}
+
+/* LIGHT */
 
 .light{
   background:#f1f5f9;
   color:#0f172a;
 }
-.light .top,.light .nav{background:#ffffffee;color:#0f172a}
-.light .upload,.light .preview,.light .result,
-.light .history-item,.light .profile-box,.light .setting{
-  background:#fff;border-color:#cbd5e1;
-}
-.light .input{background:#fff;color:#0f172a;border-color:#cbd5e1}
-.light .ocr{background:#f8fafc;color:#0f172a}
-.light .muted{color:#64748b}
 
-.toast{
-  position:fixed;
-  bottom:85px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#1e293b;
-  color:#fff;
-  padding:12px 18px;
-  border-radius:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-  z-index:50;
+.light .top,
+.light .nav{
+  background:#ffffffee;
 }
-.toast.show{opacity:1}
+
+.light .upload,
+.light .preview,
+.light .result,
+.light .pattern-box,
+.light .history-item,
+.light .profile-box,
+.light .setting,
+.light .menu-card{
+  background:white;
+  border-color:#cbd5e1;
+}
+
+.light .input{
+  background:white;
+  color:#0f172a;
+  border-color:#cbd5e1;
+}
+
+.light .ocr,
+.light .pattern-result{
+  background:#f8fafc;
+  color:#0f172a;
+}
 
 @media(max-width:500px){
-  .page{padding:15px}
-  .card{padding:24px}
+  .page{
+    padding:15px;
+  }
+
+  .card{
+    padding:24px;
+  }
+
+  .menu-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -301,224 +559,604 @@ button,input{font:inherit}
 <body>
 
 <!-- SPLASH -->
+
 <div id="splash" class="splash">
   <div class="logo">T</div>
   <h1>THANUJ Analyzing</h1>
   <p>Educational Image Analysis</p>
-  <div class="loader"><span></span></div>
+
+  <div class="loader">
+    <span></span>
+  </div>
 </div>
 
-<!-- LOGIN -->
+
+<!-- PHONE LOGIN -->
+
 <section id="login" class="login hidden">
+
   <div class="card">
-    <h2>Welcome 👋</h2>
-    <p class="sub">Login to THANUJ Analyzing</p>
 
-    <input id="loginName" class="input" placeholder="Your name">
-    <input id="loginEmail" class="input" type="email" placeholder="Email">
+    <h2>📱 Welcome</h2>
 
-    <button class="primary" onclick="login()">Continue</button>
-
-    <p class="demo">
-      Educational application • Your data stays in this browser
+    <p class="sub">
+      Login with your phone number
     </p>
+
+    <div id="phoneStep">
+
+      <input
+        id="phone"
+        class="input"
+        type="tel"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="10-digit phone number">
+
+      <button class="primary" onclick="sendOTP()">
+        Send OTP
+      </button>
+
+    </div>
+
+
+    <div id="otpStep" class="hidden">
+
+      <input
+        id="otp"
+        class="input"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP">
+
+      <button class="primary" onclick="verifyOTP()">
+        Verify OTP
+      </button>
+
+      <button
+        class="primary"
+        style="background:#1e293b"
+        onclick="backToPhone()">
+        Change Number
+      </button>
+
+    </div>
+
+    <p class="small-note">
+      Educational app. Real SMS OTP requires an authentication service.
+    </p>
+
   </div>
+
 </section>
 
+
 <!-- APP -->
+
 <div id="app" class="app hidden">
 
 <header class="top">
-  <div class="brand">THANUJ <span>Analyzing</span></div>
-  <div id="topAvatar" class="avatar">T</div>
+
+  <div class="brand">
+    THANUJ <span>Analyzing</span>
+  </div>
+
+  <div id="topAvatar" class="avatar">
+    T
+  </div>
+
 </header>
 
-<!-- HOME / ANALYSIS -->
+
+<!-- HOME -->
+
 <section id="home" class="page">
 
   <h1>Image Analysis</h1>
-  <p class="muted">Upload an image and extract readable text.</p>
 
-  <div class="upload">
-    <div class="upload-icon">📷</div>
-    <h3>Upload an Image</h3>
-    <p>JPG, PNG, WEBP and other supported image files</p>
+  <p class="muted">
+    Upload an image for educational analysis.
+  </p>
 
-    <label class="filebtn" for="fileInput">
-      Choose Image
-    </label>
 
-    <input id="fileInput" type="file" accept="image/*">
+  <div class="menu-grid">
+
+    <div class="menu-card" onclick="showTool('ocrTool')">
+      <div class="icon">🔎</div>
+      <b>OCR Analysis</b>
+      <p>Extract readable text from an image.</p>
+    </div>
+
+    <div class="menu-card" onclick="showTool('patternTool')">
+      <div class="icon">📊</div>
+      <b>Pattern Analysis</b>
+      <p>Study visible visual or number patterns.</p>
+    </div>
+
   </div>
 
-  <div id="previewBox" class="preview hidden">
-    <img id="previewImage">
 
-    <div class="action">
-      <button onclick="clearImage()">Remove</button>
-      <button class="analyze" onclick="runOCR()">🔎 Analyze</button>
+  <!-- OCR TOOL -->
+
+  <div id="ocrTool" class="hidden">
+
+    <div class="upload">
+
+      <div class="upload-icon">📷</div>
+
+      <h3>Upload Image</h3>
+
+      <p>
+        Choose an image for OCR analysis.
+      </p>
+
+      <label class="filebtn" for="fileInput">
+        Choose Image
+      </label>
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*">
+
     </div>
+
+
+    <div id="previewBox" class="preview hidden">
+
+      <img id="previewImage">
+
+      <div class="actions">
+
+        <button onclick="clearImage()">
+          Remove
+        </button>
+
+        <button
+          class="analyze"
+          onclick="runOCR()">
+          🔎 Analyze OCR
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div id="resultBox" class="result hidden">
+
+      <h3>OCR Result</h3>
+
+      <div id="ocrStatus" class="muted">
+        Preparing...
+      </div>
+
+      <div class="progress">
+        <span id="progressBar"></span>
+      </div>
+
+      <textarea
+        id="ocrText"
+        class="ocr"
+        placeholder="Extracted text will appear here..."></textarea>
+
+    </div>
+
   </div>
 
-  <div id="resultBox" class="result hidden">
-    <h3>OCR Result</h3>
 
-    <div id="ocrStatus" class="muted">
-      Preparing analysis...
+  <!-- PATTERN TOOL -->
+
+  <div id="patternTool" class="hidden">
+
+    <div class="upload">
+
+      <div class="upload-icon">📊</div>
+
+      <h3>Upload Pattern Image</h3>
+
+      <p>
+        Upload an image containing a visible sequence,
+        chart, symbols or educational pattern.
+      </p>
+
+      <label class="filebtn" for="patternInput">
+        Choose Pattern Image
+      </label>
+
+      <input
+        id="patternInput"
+        type="file"
+        accept="image/*">
+
     </div>
 
-    <div class="progress">
-      <span id="progressBar"></span>
+
+    <div id="patternPreview" class="preview hidden">
+
+      <img id="patternImage">
+
+      <div class="actions">
+
+        <button onclick="clearPattern()">
+          Remove
+        </button>
+
+        <button
+          class="analyze"
+          onclick="analyzePattern()">
+          📊 Analyze Pattern
+        </button>
+
+      </div>
+
     </div>
 
-    <textarea id="ocrText" class="ocr"
-      placeholder="Extracted text will appear here..."></textarea>
+
+    <div class="pattern-box">
+
+      <h3>Educational Pattern Analysis</h3>
+
+      <div class="notice">
+        This tool identifies visible/educational patterns.
+        It does not predict betting, gambling or real-money outcomes.
+      </div>
+
+      <div
+        id="patternResult"
+        class="pattern-result">
+
+        Upload a pattern image to begin analysis.
+
+      </div>
+
+    </div>
+
   </div>
 
 </section>
+
 
 <!-- HISTORY -->
+
 <section id="history" class="page hidden">
+
   <h1>History</h1>
-  <p class="muted">Your previous image analyses.</p>
+
+  <p class="muted">
+    Previous analyses saved on this device.
+  </p>
 
   <div id="historyList"></div>
+
 </section>
+
 
 <!-- PROFILE -->
+
 <section id="profile" class="page hidden">
+
   <h1>Profile</h1>
-  <p class="muted">Your application profile.</p>
+
+  <p class="muted">
+    Your profile information.
+  </p>
 
   <div class="profile-box">
-    <div id="profileAvatar" class="profile-big">T</div>
-    <h2 id="profileName">User</h2>
-    <p id="profileEmail" class="muted">user@email.com</p>
+
+    <div id="profileAvatar" class="profile-avatar">
+      T
+    </div>
+
+    <h2 id="profilePhone">
+      Phone User
+    </h2>
+
+    <p class="muted">
+      Verified session
+    </p>
+
   </div>
+
 </section>
+
 
 <!-- SETTINGS -->
+
 <section id="settings" class="page hidden">
+
   <h1>Settings</h1>
-  <p class="muted">Customize the application.</p>
+
+  <p class="muted">
+    Application preferences.
+  </p>
+
 
   <div class="setting">
+
     <div>
       <b>🌙 Dark Mode</b>
-      <p class="muted">Switch appearance</p>
+      <p class="muted">
+        Change appearance
+      </p>
     </div>
-    <button onclick="toggleTheme()">Toggle</button>
+
+    <button onclick="toggleTheme()">
+      Toggle
+    </button>
+
   </div>
 
+
   <div class="setting">
+
     <div>
       <b>🗑️ Clear History</b>
-      <p class="muted">Delete saved analyses</p>
+      <p class="muted">
+        Delete saved analyses
+      </p>
     </div>
-    <button onclick="clearHistory()">Clear</button>
+
+    <button onclick="clearHistory()">
+      Clear
+    </button>
+
   </div>
+
 
   <div class="setting">
+
     <div>
       <b>🚪 Logout</b>
-      <p class="muted">Return to login</p>
+      <p class="muted">
+        Return to login
+      </p>
     </div>
-    <button onclick="logout()">Logout</button>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
   </div>
+
 </section>
 
-<!-- NAVIGATION -->
+
+<!-- NAV -->
+
 <nav class="nav">
-  <button id="navHome" class="active" onclick="showPage('home')">
-    <b>🔎</b>Analyze
+
+  <button
+    id="navHome"
+    class="active"
+    onclick="showPage('home')">
+    <b>🔎</b>
+    Analyze
   </button>
 
-  <button id="navHistory" onclick="showPage('history')">
-    <b>🕘</b>History
+  <button
+    id="navHistory"
+    onclick="showPage('history')">
+    <b>🕘</b>
+    History
   </button>
 
-  <button id="navProfile" onclick="showPage('profile')">
-    <b>👤</b>Profile
+  <button
+    id="navProfile"
+    onclick="showPage('profile')">
+    <b>👤</b>
+    Profile
   </button>
 
-  <button id="navSettings" onclick="showPage('settings')">
-    <b>⚙️</b>Settings
+  <button
+    id="navSettings"
+    onclick="showPage('settings')">
+    <b>⚙️</b>
+    Settings
   </button>
+
 </nav>
 
 </div>
 
+
 <div id="toast" class="toast"></div>
 
+
 <script>
-const $ = id => document.getElementById(id);
+
+/* -------------------------
+   GLOBAL
+------------------------- */
 
 let selectedImage = null;
+let selectedPattern = null;
 
-/* START */
+
+/* -------------------------
+   START
+------------------------- */
+
 window.addEventListener("load",()=>{
+
   setTimeout(()=>{
-    $("splash").classList.add("hidden");
+
+    document.getElementById("splash")
+      .classList.add("hidden");
 
     if(localStorage.getItem("thanujUser")){
-      $("app").classList.remove("hidden");
-      loadProfile();
-      loadHistory();
+
+      document.getElementById("app")
+        .classList.remove("hidden");
+
+      loadUser();
+
     }else{
-      $("login").classList.remove("hidden");
+
+      document.getElementById("login")
+        .classList.remove("hidden");
+
     }
+
   },1800);
+
 });
 
-/* LOGIN */
-function login(){
-  const name=$("loginName").value.trim();
-  const email=$("loginEmail").value.trim();
 
-  if(!name){
-    toast("Please enter your name");
+/* -------------------------
+   OTP LOGIN
+------------------------- */
+
+function sendOTP(){
+
+  const phone =
+    document.getElementById("phone")
+    .value.trim();
+
+  if(!/^[0-9]{10}$/.test(phone)){
+
+    toast("Enter a valid 10-digit phone number");
+
     return;
   }
 
+  /*
+    Demo UI flow only.
+
+    Real SMS OTP cannot be generated by
+    a static GitHub Pages file.
+  */
+
+  localStorage.setItem(
+    "pendingPhone",
+    phone
+  );
+
+  document.getElementById("phoneStep")
+    .classList.add("hidden");
+
+  document.getElementById("otpStep")
+    .classList.remove("hidden");
+
+  toast("OTP verification screen opened");
+
+}
+
+
+function verifyOTP(){
+
+  const otp =
+    document.getElementById("otp")
+    .value.trim();
+
+  if(!/^[0-9]{6}$/.test(otp)){
+
+    toast("Enter the 6-digit OTP");
+
+    return;
+  }
+
+  const phone =
+    localStorage.getItem("pendingPhone");
+
   const user={
-    name:name,
-    email:email || "Not provided"
+    phone:phone
   };
 
-  localStorage.setItem("thanujUser",JSON.stringify(user));
+  localStorage.setItem(
+    "thanujUser",
+    JSON.stringify(user)
+  );
 
-  $("login").classList.add("hidden");
-  $("app").classList.remove("hidden");
+  localStorage.removeItem("pendingPhone");
 
-  loadProfile();
-  toast("Welcome, "+name+"!");
+  document.getElementById("login")
+    .classList.add("hidden");
+
+  document.getElementById("app")
+    .classList.remove("hidden");
+
+  loadUser();
+
+  toast("Login successful");
+
 }
 
-/* PROFILE */
-function loadProfile(){
-  const data=JSON.parse(localStorage.getItem("thanujUser")||"{}");
 
-  const name=data.name||"User";
-  const email=data.email||"Not provided";
+function backToPhone(){
 
-  $("profileName").textContent=name;
-  $("profileEmail").textContent=email;
+  document.getElementById("otpStep")
+    .classList.add("hidden");
 
-  const letter=name.charAt(0).toUpperCase();
+  document.getElementById("phoneStep")
+    .classList.remove("hidden");
 
-  $("profileAvatar").textContent=letter;
-  $("topAvatar").textContent=letter;
 }
 
-/* FILE */
-$("fileInput").addEventListener("change",function(e){
+
+/* -------------------------
+   USER
+------------------------- */
+
+function loadUser(){
+
+  const user =
+    JSON.parse(
+      localStorage.getItem("thanujUser") || "{}"
+    );
+
+  const phone =
+    user.phone || "Phone User";
+
+  const last =
+    phone.slice(-1) || "T";
+
+  document.getElementById("profilePhone")
+    .textContent=phone;
+
+  document.getElementById("profileAvatar")
+    .textContent=last;
+
+  document.getElementById("topAvatar")
+    .textContent=last;
+
+}
+
+
+/* -------------------------
+   TOOL SWITCH
+------------------------- */
+
+function showTool(tool){
+
+  document.getElementById("ocrTool")
+    .classList.add("hidden");
+
+  document.getElementById("patternTool")
+    .classList.add("hidden");
+
+  document.getElementById(tool)
+    .classList.remove("hidden");
+
+}
+
+
+/* -------------------------
+   IMAGE UPLOAD
+------------------------- */
+
+document.getElementById("fileInput")
+.addEventListener("change",function(e){
 
   const file=e.target.files[0];
 
   if(!file)return;
 
   if(!file.type.startsWith("image/")){
-    toast("Please select an image file");
+
+    toast("Please select an image");
+
     return;
   }
 
@@ -527,221 +1165,175 @@ $("fileInput").addEventListener("change",function(e){
   const reader=new FileReader();
 
   reader.onload=function(event){
-    $("previewImage").src=event.target.result;
-    $("previewBox").classList.remove("hidden");
-    $("resultBox").classList.add("hidden");
-    $("ocrText").value="";
+
+    document.getElementById("previewImage")
+      .src=event.target.result;
+
+    document.getElementById("previewBox")
+      .classList.remove("hidden");
+
+    document.getElementById("resultBox")
+      .classList.add("hidden");
+
   };
 
   reader.readAsDataURL(file);
+
 });
 
-/* OCR */
+
+/* -------------------------
+   OCR
+------------------------- */
+
 async function runOCR(){
 
   if(!selectedImage){
-    toast("Please choose an image first");
+
+    toast("Choose an image first");
+
     return;
   }
 
-  $("resultBox").classList.remove("hidden");
-  $("ocrStatus").textContent="Starting OCR...";
-  $("progressBar").style.width="5%";
-  $("ocrText").value="";
+  document.getElementById("resultBox")
+    .classList.remove("hidden");
+
+  document.getElementById("ocrText")
+    .value="";
+
+  document.getElementById("ocrStatus")
+    .textContent="Starting OCR...";
+
+  document.getElementById("progressBar")
+    .style.width="5%";
 
   try{
 
-    const result=await Tesseract.recognize(
-      selectedImage,
-      "eng",
-      {
-        logger:function(info){
+    const result=
+      await Tesseract.recognize(
+        selectedImage,
+        "eng",
+        {
+          logger:function(info){
 
-          if(info.status){
-            $("ocrStatus").textContent=info.status;
-          }
+            if(info.status){
 
-          if(typeof info.progress==="number"){
-            $("progressBar").style.width=
-              Math.round(info.progress*100)+"%";
+              document.getElementById("ocrStatus")
+                .textContent=info.status;
+
+            }
+
+            if(typeof info.progress==="number"){
+
+              document.getElementById("progressBar")
+                .style.width=
+                Math.round(info.progress*100)+"%";
+
+            }
+
           }
         }
-      }
+      );
+
+    const text=
+      result.data.text.trim();
+
+    document.getElementById("progressBar")
+      .style.width="100%";
+
+    document.getElementById("ocrStatus")
+      .textContent="OCR completed.";
+
+    document.getElementById("ocrText")
+      .value=
+      text || "No readable text found.";
+
+    saveHistory(
+      "OCR",
+      text || "No readable text found."
     );
 
-    const text=result.data.text.trim();
-
-    $("progressBar").style.width="100%";
-    $("ocrStatus").textContent="Analysis completed.";
-
-    $("ocrText").value=text || "No readable text found.";
-
-    saveHistory(text || "No readable text found.");
-
-    toast("OCR completed successfully");
+    toast("OCR completed");
 
   }catch(error){
 
     console.error(error);
 
-    $("ocrStatus").textContent="OCR failed.";
-    $("ocrText").value=
-      "Unable to analyze this image. Please try another image.";
+    document.getElementById("ocrStatus")
+      .textContent="OCR failed.";
 
-    toast("OCR could not be completed");
+    document.getElementById("ocrText")
+      .value=
+      "Unable to analyze this image.";
+
+    toast("OCR failed");
+
   }
+
 }
 
-/* HISTORY */
-function saveHistory(text){
 
-  let history=JSON.parse(
-    localStorage.getItem("thanujHistory")||"[]"
-  );
+/* -------------------------
+   PATTERN IMAGE
+------------------------- */
 
-  history.unshift({
-    text:text,
-    date:new Date().toLocaleString()
-  });
+document.getElementById("patternInput")
+.addEventListener("change",function(e){
 
-  history=history.slice(0,20);
+  const file=e.target.files[0];
 
-  localStorage.setItem(
-    "thanujHistory",
-    JSON.stringify(history)
-  );
+  if(!file)return;
 
-  loadHistory();
-}
+  if(!file.type.startsWith("image/")){
 
-function loadHistory(){
+    toast("Please select an image");
 
-  const list=$("historyList");
-
-  const history=JSON.parse(
-    localStorage.getItem("thanujHistory")||"[]"
-  );
-
-  list.innerHTML="";
-
-  if(history.length===0){
-    list.innerHTML=
-      '<div class="empty">🕘<br><br>No analysis history yet.</div>';
     return;
   }
 
-  history.forEach(item=>{
+  selectedPattern=file;
 
-    const div=document.createElement("div");
-    div.className="history-item";
+  const reader=new FileReader();
 
-    const title=document.createElement("b");
-    title.textContent="Image Analysis";
+  reader.onload=function(event){
 
-    const date=document.createElement("small");
-    date.textContent=item.date;
+    document.getElementById("patternImage")
+      .src=event.target.result;
 
-    const text=document.createElement("p");
-    text.textContent=item.text;
+    document.getElementById("patternPreview")
+      .classList.remove("hidden");
 
-    div.appendChild(title);
-    div.appendChild(document.createElement("br"));
-    div.appendChild(date);
-    div.appendChild(text);
+    document.getElementById("patternResult")
+      .textContent=
+      "Image loaded. Press Analyze Pattern.";
 
-    list.appendChild(div);
-  });
-}
-
-/* CLEAR IMAGE */
-function clearImage(){
-
-  selectedImage=null;
-  $("fileInput").value="";
-  $("previewBox").classList.add("hidden");
-  $("resultBox").classList.add("hidden");
-  $("previewImage").src="";
-  $("ocrText").value="";
-}
-
-/* NAVIGATION */
-function showPage(page){
-
-  ["home","history","profile","settings"].forEach(id=>{
-    $(id).classList.add("hidden");
-  });
-
-  $(page).classList.remove("hidden");
-
-  ["navHome","navHistory","navProfile","navSettings"]
-    .forEach(id=>$(id).classList.remove("active"));
-
-  const nav={
-    home:"navHome",
-    history:"navHistory",
-    profile:"navProfile",
-    settings:"navSettings"
   };
 
-  $(nav[page]).classList.add("active");
+  reader.readAsDataURL(file);
 
-  if(page==="history")loadHistory();
-}
+});
 
-/* THEME */
-function toggleTheme(){
 
-  document.body.classList.toggle("light");
+/* -------------------------
+   EDUCATIONAL PATTERN
+------------------------- */
 
-  localStorage.setItem(
-    "thanujTheme",
-    document.body.classList.contains("light")
-      ? "light"
-      : "dark"
-  );
-}
+async function analyzePattern(){
 
-if(localStorage.getItem("thanujTheme")==="light"){
-  document.body.classList.add("light");
-}
+  if(!selectedPattern){
 
-/* CLEAR HISTORY */
-function clearHistory(){
+    toast("Choose a pattern image first");
 
-  localStorage.removeItem("thanujHistory");
-  loadHistory();
-  toast("History cleared");
-}
+    return;
+  }
 
-/* LOGOUT */
-function logout(){
+  const result=
+    document.getElementById("patternResult");
 
-  localStorage.removeItem("thanujUser");
+  result.textContent=
+    "Reading visible information from the image...";
 
-  $("app").classList.add("hidden");
-  $("login").classList.remove("hidden");
+  try{
 
-  $("loginName").value="";
-  $("loginEmail").value="";
-
-  showPage("home");
-
-  toast("Logged out");
-}
-
-/* TOAST */
-function toast(message){
-
-  const t=$("toast");
-
-  t.textContent=message;
-  t.classList.add("show");
-
-  setTimeout(()=>{
-    t.classList.remove("show");
-  },2200);
-}
-</script>
-
-</body>
-    </html>
+    const data=
+      await Tesseract.recognize
