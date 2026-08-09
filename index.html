@@ -1,1392 +1,366 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0,user-scalable=no">
-
-<title>THANUJ Analyzing</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THANUJ</title>
 
 <style>
-*{
-  box-sizing:border-box;
+body{
   margin:0;
-  padding:0;
+  font-family:Arial,sans-serif;
+  background:#0b1020;
+  color:white;
 }
 
-html,body{
-  width:100%;
-  min-height:100%;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#080d1c;
-  color:#fff;
+header{
+  padding:20px;
+  background:#151d38;
+  text-align:center;
 }
 
-button,input{
-  font-family:inherit;
+main{
+  padding:20px;
+  max-width:600px;
+  margin:auto;
+}
+
+.card{
+  background:#151d38;
+  padding:20px;
+  border-radius:18px;
+  margin-bottom:15px;
 }
 
 button{
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* ================= SPLASH ================= */
-
-#splash{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:#080d1c;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
-
-.splashLogo{
-  width:95px;
-  height:95px;
-  border-radius:26px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:42px;
-  font-weight:900;
-  background:linear-gradient(135deg,#635bff,#00d9ff);
-  box-shadow:0 0 35px rgba(0,210,255,.35);
-}
-
-.splashTitle{
-  margin-top:20px;
-  font-size:30px;
-  font-weight:800;
-}
-
-.splashText{
-  margin-top:8px;
-  color:#9da9cc;
-}
-
-/* ================= LOGIN ================= */
-
-#loginScreen{
-  min-height:100vh;
-  padding:25px 18px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.loginCard{
   width:100%;
-  max-width:440px;
-  padding:25px;
-  border-radius:24px;
-  background:#121a31;
-  border:1px solid #29375e;
-  box-shadow:0 20px 50px rgba(0,0,0,.4);
-}
-
-.loginLogo{
-  width:70px;
-  height:70px;
-  margin:0 auto 18px;
-  border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:900;
-  background:linear-gradient(135deg,#635bff,#00d9ff);
-}
-
-.loginCard h1{
-  text-align:center;
-  font-size:24px;
-}
-
-.subtitle{
-  color:#9da9cc;
-  text-align:center;
-  margin-top:7px;
-  line-height:1.5;
-}
-
-label{
-  display:block;
-  margin-top:20px;
-  margin-bottom:7px;
-  color:#dbe2ff;
-  font-size:14px;
+  padding:15px;
+  margin-top:10px;
+  border:0;
+  border-radius:12px;
+  background:#5865f2;
+  color:white;
+  font-weight:bold;
 }
 
 input{
   width:100%;
-  height:50px;
-  border-radius:12px;
-  border:1px solid #34446e;
-  background:#0a1022;
-  color:#fff;
-  padding:0 14px;
-  outline:none;
-}
-
-input:focus{
-  border-color:#00cfff;
-}
-
-.mainBtn{
-  width:100%;
-  min-height:50px;
-  border:0;
-  border-radius:13px;
-  margin-top:14px;
-  color:#fff;
-  font-weight:700;
-  background:linear-gradient(90deg,#635bff,#00cfff);
-}
-
-.darkBtn{
-  width:100%;
-  min-height:50px;
-  border:1px solid #35436c;
-  border-radius:13px;
+  padding:14px;
   margin-top:10px;
-  color:#fff;
-  background:#1a2442;
-  font-weight:700;
+  box-sizing:border-box;
+  border-radius:10px;
+  border:1px solid #44527b;
+  background:#0b1020;
+  color:white;
 }
 
-.message{
-  text-align:center;
-  margin-top:13px;
-  color:#6ee7ff;
-  min-height:20px;
-  font-size:14px;
-}
-
-.note{
-  margin-top:18px;
-  padding:13px;
+img{
+  width:100%;
+  margin-top:15px;
   border-radius:12px;
-  background:#171d34;
-  border:1px solid #353d61;
-  color:#9da9cc;
-  font-size:12px;
-  line-height:1.5;
 }
-
-/* ================= APP ================= */
 
 #app{
-  min-height:100vh;
-  padding-bottom:75px;
-}
-
-.top{
-  position:sticky;
-  top:0;
-  z-index:100;
-  padding:17px;
-  background:#0d1429;
-  border-bottom:1px solid #263453;
-}
-
-.topTitle{
-  font-size:21px;
-  font-weight:800;
-}
-
-.topSub{
-  color:#8592b9;
-  font-size:12px;
-  margin-top:3px;
-}
-
-.page{
-  display:none;
-  width:100%;
-  max-width:700px;
-  margin:auto;
-  padding:18px 15px 25px;
-}
-
-.page.active{
-  display:block;
-}
-
-/* ================= HOME ================= */
-
-.hero{
-  padding:21px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#18234a,#25133e);
-  border:1px solid #36466e;
-  margin-bottom:18px;
-}
-
-.hero h2{
-  font-size:25px;
-  margin-bottom:8px;
-}
-
-.hero p{
-  color:#aeb9dc;
-  line-height:1.5;
-}
-
-.upload{
-  display:block;
-  padding:35px 15px;
-  text-align:center;
-  border-radius:20px;
-  border:2px dashed #52628f;
-  background:#11192f;
-}
-
-.uploadIcon{
-  font-size:45px;
-  margin-bottom:12px;
-}
-
-.upload h3{
-  margin-bottom:6px;
-}
-
-.upload p{
-  color:#8997bd;
-  font-size:13px;
-}
-
-.fileInput{
   display:none;
 }
 
-.preview{
+#preview{
   display:none;
-  margin-top:17px;
-  padding:12px;
-  border-radius:18px;
-  background:#11192e;
-  border:1px solid #303d63;
 }
 
-.preview img{
-  width:100%;
-  max-height:360px;
-  object-fit:contain;
-  border-radius:12px;
-  background:#050914;
-}
-
-.imageName{
-  color:#a9b5d6;
-  font-size:12px;
-  margin-top:9px;
-  word-break:break-all;
-}
-
-.result{
-  margin-top:16px;
-  padding:17px;
-  border-radius:17px;
-  background:#11192e;
-  border:1px solid #303d63;
-  line-height:1.6;
-}
-
-.resultTitle{
-  color:#6ee7ff;
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.warning{
-  margin-top:16px;
-  padding:13px;
-  border-radius:13px;
-  background:#171c31;
-  border:1px solid #393f60;
-  color:#aeb8d5;
-  font-size:12px;
-  line-height:1.5;
-}
-
-/* ================= HISTORY ================= */
-
-.empty{
-  text-align:center;
-  padding:40px 15px;
-  color:#8490b5;
-}
-
-.historyCard{
-  padding:16px;
-  border-radius:15px;
-  background:#121a31;
-  border:1px solid #2d3a60;
-  margin-bottom:11px;
-}
-
-.historyDate{
-  color:#7381a9;
-  font-size:11px;
-  margin-bottom:9px;
-}
-
-.historyText{
-  color:#d9e0f5;
-  font-size:14px;
-  word-break:break-word;
-}
-
-/* ================= PROFILE ================= */
-
-.profile{
-  padding:25px;
-  border-radius:20px;
-  background:#121a31;
-  border:1px solid #2d3a60;
-  text-align:center;
-}
-
-.avatar{
-  width:85px;
-  height:85px;
-  margin:auto;
-  border-radius:50%;
+nav{
   display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#635bff,#00d9ff);
-  font-size:32px;
-  font-weight:900;
-}
-
-.profile h2{
-  margin-top:14px;
-}
-
-.info{
-  margin-top:16px;
-  padding:15px;
-  text-align:left;
-  border-radius:14px;
-  background:#0c1327;
-  border:1px solid #29375b;
-}
-
-.infoTitle{
-  color:#8290b7;
-  font-size:12px;
-}
-
-.infoValue{
-  margin-top:5px;
-  word-break:break-word;
-}
-
-/* ================= SETTINGS ================= */
-
-.setting{
-  padding:17px;
-  border-radius:15px;
-  background:#121a31;
-  border:1px solid #2d3a60;
-  margin-bottom:11px;
-}
-
-.settingTitle{
-  font-weight:700;
-}
-
-.settingText{
-  color:#8e9abc;
-  font-size:13px;
-  margin-top:6px;
-  line-height:1.5;
-}
-
-/* ================= NAV ================= */
-
-.nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:70px;
-  z-index:500;
-  display:flex;
-  background:#0d1429;
-  border-top:1px solid #29375a;
+  background:#151d38;
 }
 
-.navBtn{
-  flex:1;
-  border:0;
-  background:transparent;
-  color:#7180a7;
-  font-size:11px;
-}
-
-.navIcon{
-  display:block;
-  font-size:22px;
-  margin-bottom:3px;
-}
-
-.navBtn.active{
-  color:#65ddff;
-}
-
-/* ================= SMALL PHONES ================= */
-
-@media(max-width:360px){
-
-  .loginCard{
-    padding:20px;
-  }
-
-  .hero h2{
-    font-size:22px;
-  }
-
+nav button{
+  margin:0;
+  border-radius:0;
+  background:#151d38;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= SPLASH ================= -->
+<header>
+<h2>THANUJ Analyzing</h2>
+<p>Educational Image Analysis</p>
+</header>
 
-<div id="splash">
+<!-- LOGIN -->
 
-  <div>
+<div id="login">
 
-    <div class="splashLogo">T</div>
+<main>
 
-    <div class="splashTitle">
-      THANUJ
-    </div>
+<div class="card">
 
-    <div class="splashText">
-      Educational Image Analysis
-    </div>
+<h2>Login</h2>
 
-  </div>
+<p>Enter your phone number</p>
+
+<input
+id="phone"
+type="tel"
+maxlength="10"
+placeholder="Phone number">
+
+<button onclick="sendOTP()">
+Send OTP
+</button>
+
+<div id="otpBox" style="display:none">
+
+<input
+id="otp"
+type="tel"
+maxlength="6"
+placeholder="Enter OTP">
+
+<button onclick="login()">
+Verify OTP
+</button>
+
+</div>
+
+<p id="message"></p>
+
+</div>
+
+<div class="card">
+Demo OTP: <b>123456</b>
+</div>
+
+</main>
 
 </div>
 
 
-<!-- ================= LOGIN ================= -->
+<!-- APP -->
 
-<section id="loginScreen">
+<div id="app">
 
-  <div class="loginCard">
+<main>
 
-    <div class="loginLogo">
-      T
-    </div>
+<section id="home">
 
-    <h1>THANUJ Analyzing</h1>
+<div class="card">
 
-    <p class="subtitle">
-      Educational Image Analysis App
-    </p>
+<h2>Image Upload</h2>
 
-    <label for="phone">
-      Phone Number
-    </label>
+<p>
+Choose an image from your phone.
+</p>
 
-    <input
-      id="phone"
-      type="tel"
-      inputmode="numeric"
-      maxlength="10"
-      placeholder="10-digit phone number">
+<input
+id="imageInput"
+type="file"
+accept="image/*">
 
-    <button
-      class="mainBtn"
-      id="sendOtpBtn">
-      Send OTP
-    </button>
+<img id="preview">
 
-    <div id="otpSection" class="hidden">
+<button onclick="analyze()">
+Analyze Image
+</button>
 
-      <label for="otp">
-        OTP
-      </label>
+<p id="result"></p>
 
-      <input
-        id="otp"
-        type="tel"
-        inputmode="numeric"
-        maxlength="6"
-        placeholder="Enter OTP">
-
-      <button
-        class="mainBtn"
-        id="verifyBtn">
-        Verify & Continue
-      </button>
-
-    </div>
-
-    <div
-      id="loginMessage"
-      class="message">
-    </div>
-
-    <div class="note">
-      Demo login only. No real SMS is sent.
-      For testing, use OTP <b>123456</b>.
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- ================= APPLICATION ================= -->
+<section id="history"
+style="display:none">
 
-<div id="app" class="hidden">
+<div class="card">
 
-  <header class="top">
+<h2>History</h2>
 
-    <div class="topTitle">
-      THANUJ Analyzing
-    </div>
+<div id="historyList">
+No history yet.
+</div>
 
-    <div class="topSub">
-      Educational Image Analysis
-    </div>
+</div>
 
-  </header>
+</section>
 
 
-  <!-- HOME -->
+<section id="profile"
+style="display:none">
 
-  <section
-    id="home"
-    class="page active">
+<div class="card">
 
-    <div class="hero">
+<h2>Profile</h2>
 
-      <h2>
-        Image Analysis
-      </h2>
+<p>Name: THANUJ</p>
 
-      <p>
-        Select an educational image from your phone
-        to preview and analyze it.
-      </p>
+<p id="profilePhone"></p>
 
-    </div>
+</div>
 
+</section>
 
-    <label
-      class="upload"
-      for="imagePicker">
 
-      <div class="uploadIcon">
-        📷
-      </div>
+<section id="settings"
+style="display:none">
 
-      <h3>
-        Select Image
-      </h3>
+<div class="card">
 
-      <p>
-        Tap here to open your gallery
-      </p>
+<h2>Settings</h2>
 
-    </label>
+<p>THANUJ Educational Image Analysis</p>
 
-    <input
-      id="imagePicker"
-      class="fileInput"
-      type="file"
-      accept="image/*">
+<button onclick="logout()">
+Logout
+</button>
 
+</div>
 
-    <div
-      id="previewBox"
-      class="preview">
+</section>
 
-      <img
-        id="imagePreview"
-        alt="Selected image">
+</main>
 
-      <div
-        id="imageName"
-        class="imageName">
-      </div>
 
-      <button
-        id="analyzeBtn"
-        class="mainBtn">
-        🔍 Analyze Image
-      </button>
+<nav>
 
-      <button
-        id="removeBtn"
-        class="darkBtn">
-        Remove Image
-      </button>
+<button onclick="page('home')">
+Home
+</button>
 
-    </div>
+<button onclick="page('history')">
+History
+</button>
 
+<button onclick="page('profile')">
+Profile
+</button>
 
-    <div
-      id="analysisResult"
-      class="result hidden">
+<button onclick="page('settings')">
+Settings
+</button>
 
-      <div class="resultTitle">
-        Analysis
-      </div>
-
-      <div id="analysisText">
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      This is an educational image-analysis application.
-      The analysis shown here should not be treated as a guaranteed
-      prediction or financial decision.
-
-    </div>
-
-  </section>
-
-
-  <!-- HISTORY -->
-
-  <section
-    id="history"
-    class="page">
-
-    <h2>
-      History
-    </h2>
-
-    <p class="subtitle"
-       style="text-align:left;margin-bottom:17px;">
-      Your previous image-analysis sessions.
-    </p>
-
-    <div id="historyContainer">
-    </div>
-
-    <button
-      id="clearHistoryBtn"
-      class="darkBtn">
-      Clear History
-    </button>
-
-  </section>
-
-
-  <!-- PROFILE -->
-
-  <section
-    id="profile"
-    class="page">
-
-    <h2>
-      Profile
-    </h2>
-
-    <div class="profile">
-
-      <div class="avatar">
-        T
-      </div>
-
-      <h2>
-        THANUJ
-      </h2>
-
-      <p class="subtitle">
-        Educational User
-      </p>
-
-      <div class="info">
-
-        <div class="infoTitle">
-          Phone Number
-        </div>
-
-        <div
-          id="profilePhone"
-          class="infoValue">
-          —
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- SETTINGS -->
-
-  <section
-    id="settings"
-    class="page">
-
-    <h2>
-      Settings
-    </h2>
-
-    <div class="setting">
-
-      <div class="settingTitle">
-        App
-      </div>
-
-      <div class="settingText">
-        THANUJ Educational Image Analysis
-      </div>
-
-    </div>
-
-    <div class="setting">
-
-      <div class="settingTitle">
-        Storage
-      </div>
-
-      <div class="settingText">
-        History is stored locally in your browser.
-      </div>
-
-    </div>
-
-    <div class="setting">
-
-      <div class="settingTitle">
-        About
-      </div>
-
-      <div class="settingText">
-        Single-file educational web application
-        designed for GitHub Pages.
-      </div>
-
-    </div>
-
-    <button
-      id="logoutBtn"
-      class="darkBtn">
-      Log Out
-    </button>
-
-  </section>
-
-
-  <!-- NAVIGATION -->
-
-  <nav class="nav">
-
-    <button
-      class="navBtn active"
-      data-page="home">
-
-      <span class="navIcon">🏠</span>
-      Home
-
-    </button>
-
-    <button
-      class="navBtn"
-      data-page="history">
-
-      <span class="navIcon">🕘</span>
-      History
-
-    </button>
-
-    <button
-      class="navBtn"
-      data-page="profile">
-
-      <span class="navIcon">👤</span>
-      Profile
-
-    </button>
-
-    <button
-      class="navBtn"
-      data-page="settings">
-
-      <span class="navIcon">⚙️</span>
-      Settings
-
-    </button>
-
-  </nav>
+</nav>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   THANUJ APP
-   No external libraries.
-   No external scripts.
-   ===================================================== */
+function sendOTP(){
 
-(function(){
+var phone=document.getElementById("phone").value;
 
-"use strict";
+if(phone.length!=10){
 
+document.getElementById("message").innerText=
+"Enter 10 digit phone number";
 
-/* ---------- ELEMENTS ---------- */
-
-var splash =
-  document.getElementById("splash");
-
-var loginScreen =
-  document.getElementById("loginScreen");
-
-var app =
-  document.getElementById("app");
-
-var phone =
-  document.getElementById("phone");
-
-var otp =
-  document.getElementById("otp");
-
-var otpSection =
-  document.getElementById("otpSection");
-
-var loginMessage =
-  document.getElementById("loginMessage");
-
-var imagePicker =
-  document.getElementById("imagePicker");
-
-var previewBox =
-  document.getElementById("previewBox");
-
-var imagePreview =
-  document.getElementById("imagePreview");
-
-var imageName =
-  document.getElementById("imageName");
-
-var analysisResult =
-  document.getElementById("analysisResult");
-
-var analysisText =
-  document.getElementById("analysisText");
-
-var historyContainer =
-  document.getElementById("historyContainer");
-
-var profilePhone =
-  document.getElementById("profilePhone");
-
-
-/* ---------- SAFE LOCAL STORAGE ---------- */
-
-function getStorage(key){
-
-  try{
-    return localStorage.getItem(key);
-  }catch(e){
-    return null;
-  }
+return;
 
 }
 
-function setStorage(key,value){
+document.getElementById("otpBox").style.display="block";
 
-  try{
-    localStorage.setItem(key,value);
-  }catch(e){}
-
-}
-
-function removeStorage(key){
-
-  try{
-    localStorage.removeItem(key);
-  }catch(e){}
+document.getElementById("message").innerText=
+"OTP generated. Use 123456";
 
 }
 
+function login(){
 
-/* ---------- START APP ---------- */
+var otp=document.getElementById("otp").value;
 
-function startApp(){
+if(otp!="123456"){
 
-  /*
-    Splash is deliberately controlled with plain JS.
-    There is no external library that can block it.
-  */
+document.getElementById("message").innerText=
+"Wrong OTP";
 
-  setTimeout(function(){
-
-    splash.classList.add("hidden");
-
-    if(getStorage("thanuj_logged") === "yes"){
-
-      showApp();
-
-    }else{
-
-      loginScreen.classList.remove("hidden");
-
-    }
-
-  },800);
+return;
 
 }
 
+localStorage.setItem("login","yes");
 
-/* ---------- LOGIN ---------- */
+document.getElementById("login").style.display="none";
 
-document
-.getElementById("sendOtpBtn")
-.addEventListener("click",function(){
+document.getElementById("app").style.display="block";
 
-  var number =
-    phone.value.trim();
-
-  if(!/^[0-9]{10}$/.test(number)){
-
-    loginMessage.textContent =
-      "Enter a valid 10-digit phone number.";
-
-    return;
-
-  }
-
-  setStorage("thanuj_phone",number);
-
-  otpSection.classList.remove("hidden");
-
-  loginMessage.textContent =
-    "Demo OTP sent. Use 123456.";
-
-});
-
-
-document
-.getElementById("verifyBtn")
-.addEventListener("click",function(){
-
-  var code =
-    otp.value.trim();
-
-  if(code !== "123456"){
-
-    loginMessage.textContent =
-      "Wrong OTP. Please enter 123456.";
-
-    return;
-
-  }
-
-  setStorage("thanuj_logged","yes");
-
-  showApp();
-
-});
-
-
-/* ---------- SHOW APP ---------- */
-
-function showApp(){
-
-  loginScreen.classList.add("hidden");
-
-  app.classList.remove("hidden");
-
-  var savedPhone =
-    getStorage("thanuj_phone");
-
-  if(savedPhone){
-
-    profilePhone.textContent =
-      savedPhone;
-
-  }
-
-  loadHistory();
+document.getElementById("profilePhone").innerText=
+"Phone: "+document.getElementById("phone").value;
 
 }
 
+function logout(){
 
-/* ---------- LOGOUT ---------- */
+localStorage.removeItem("login");
 
-document
-.getElementById("logoutBtn")
-.addEventListener("click",function(){
-
-  removeStorage("thanuj_logged");
-
-  app.classList.add("hidden");
-
-  loginScreen.classList.remove("hidden");
-
-  otpSection.classList.add("hidden");
-
-  otp.value = "";
-
-  loginMessage.textContent = "";
-
-});
-
-
-/* ---------- NAVIGATION ---------- */
-
-var navButtons =
-  document.querySelectorAll(".navBtn");
-
-var pages =
-  document.querySelectorAll(".page");
-
-
-navButtons.forEach(function(button){
-
-  button.addEventListener("click",function(){
-
-    var target =
-      button.getAttribute("data-page");
-
-    pages.forEach(function(page){
-
-      page.classList.remove("active");
-
-    });
-
-    var selected =
-      document.getElementById(target);
-
-    if(selected){
-
-      selected.classList.add("active");
-
-    }
-
-    navButtons.forEach(function(btn){
-
-      btn.classList.remove("active");
-
-    });
-
-    button.classList.add("active");
-
-    if(target === "history"){
-
-      loadHistory();
-
-    }
-
-  });
-
-});
-
-
-/* ---------- IMAGE PICKER ---------- */
-
-imagePicker.addEventListener("change",function(event){
-
-  var file =
-    event.target.files &&
-    event.target.files[0];
-
-  if(!file){
-
-    return;
-
-  }
-
-  if(file.type.indexOf("image/") !== 0){
-
-    alert("Please select an image.");
-
-    imagePicker.value = "";
-
-    return;
-
-  }
-
-  var reader =
-    new FileReader();
-
-  reader.onload = function(e){
-
-    imagePreview.src =
-      e.target.result;
-
-    imageName.textContent =
-      file.name;
-
-    previewBox.style.display =
-      "block";
-
-    analysisResult.classList.add(
-      "hidden"
-    );
-
-  };
-
-  reader.onerror = function(){
-
-    alert("The image could not be opened.");
-
-  };
-
-  reader.readAsDataURL(file);
-
-});
-
-
-/* ---------- IMAGE ANALYSIS ---------- */
-
-document
-.getElementById("analyzeBtn")
-.addEventListener("click",function(){
-
-  if(!imagePreview.src){
-
-    alert("Please select an image first.");
-
-    return;
-
-  }
-
-  analysisResult.classList.remove(
-    "hidden"
-  );
-
-  analysisText.innerHTML =
-    "Analyzing the selected image...";
-
-  setTimeout(function(){
-
-    var width =
-      imagePreview.naturalWidth;
-
-    var height =
-      imagePreview.naturalHeight;
-
-    var ratio =
-      width && height
-      ? (width / height).toFixed(2)
-      : "Unknown";
-
-    analysisText.innerHTML =
-      "<b>Image loaded successfully.</b><br><br>" +
-
-      "File: " +
-      escapeHTML(imageName.textContent) +
-      "<br>" +
-
-      "Width: " +
-      width +
-      " px<br>" +
-
-      "Height: " +
-      height +
-      " px<br>" +
-
-      "Aspect ratio: " +
-      ratio +
-      "<br><br>" +
-
-      "The image is ready for educational review. " +
-      "This version confirms that the image was successfully " +
-      "loaded and does not make guaranteed predictions.";
-
-    saveHistory(
-      imageName.textContent,
-      width,
-      height
-    );
-
-  },500);
-
-});
-
-
-/* ---------- REMOVE IMAGE ---------- */
-
-document
-.getElementById("removeBtn")
-.addEventListener("click",function(){
-
-  imagePicker.value = "";
-
-  imagePreview.removeAttribute("src");
-
-  imageName.textContent = "";
-
-  previewBox.style.display =
-    "none";
-
-  analysisResult.classList.add(
-    "hidden"
-  );
-
-});
-
-
-/* ---------- HISTORY ---------- */
-
-function saveHistory(name,width,height){
-
-  var history = [];
-
-  try{
-
-    history =
-      JSON.parse(
-        getStorage("thanuj_history") || "[]"
-      );
-
-  }catch(e){
-
-    history = [];
-
-  }
-
-  history.unshift({
-
-    name:name,
-
-    width:width,
-
-    height:height,
-
-    date:new Date().toLocaleString()
-
-  });
-
-  history =
-    history.slice(0,20);
-
-  setStorage(
-    "thanuj_history",
-    JSON.stringify(history)
-  );
-
-  loadHistory();
+location.reload();
 
 }
 
+function page(name){
 
-function loadHistory(){
+document.getElementById("home").style.display="none";
+document.getElementById("history").style.display="none";
+document.getElementById("profile").style.display="none";
+document.getElementById("settings").style.display="none";
 
-  if(!historyContainer){
-
-    return;
-
-  }
-
-  var history = [];
-
-  try{
-
-    history =
-      JSON.parse(
-        getStorage("thanuj_history") || "[]"
-      );
-
-  }catch(e){
-
-    history = [];
-
-  }
-
-  if(!history.length){
-
-    historyContainer.innerHTML =
-      '<div class="empty">' +
-      'No analysis history yet.' +
-      '</div>';
-
-    return;
-
-  }
-
-  var html = "";
-
-  history.forEach(function(item){
-
-    html +=
-      '<div class="historyCard">' +
-
-      '<div class="historyDate">' +
-      escapeHTML(item.date || "") +
-      '</div>' +
-
-      '<div class="historyText">' +
-      escapeHTML(item.name || "Image") +
-      '<br>' +
-      (item.width || 0) +
-      ' × ' +
-      (item.height || 0) +
-      ' pixels' +
-      '</div>' +
-
-      '</div>';
-
-  });
-
-  historyContainer.innerHTML =
-    html;
+document.getElementById(name).style.display="block";
 
 }
 
+document.getElementById("imageInput").onchange=function(){
 
-document
-.getElementById("clearHistoryBtn")
-.addEventListener("click",function(){
+var file=this.files[0];
 
-  removeStorage("thanuj_history");
+if(!file)return;
 
-  loadHistory();
+var reader=new FileReader();
 
-});
+reader.onload=function(e){
 
+document.getElementById("preview").src=e.target.result;
 
-/* ---------- ESCAPE HTML ---------- */
+document.getElementById("preview").style.display="block";
 
-function escapeHTML(value){
+};
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+reader.readAsDataURL(file);
+
+};
+
+function analyze(){
+
+var image=document.getElementById("preview");
+
+if(!image.src){
+
+alert("Select an image first");
+
+return;
 
 }
 
+document.getElementById("result").innerText=
+"Image loaded successfully. Educational analysis ready.";
 
-/* ---------- START ---------- */
+}
 
-startApp();
+if(localStorage.getItem("login")=="yes"){
 
-})();
+document.getElementById("login").style.display="none";
+
+document.getElementById("app").style.display="block";
+
+}
+
 </script>
 
 </body>
-  </html>
+</html>
